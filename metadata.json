@@ -1,0 +1,6 @@
+{
+  "name": "MSc AI Dissertation Tracker",
+  "description": "Interactive tracker mapping literature matrices, model comparisons, system design steps, and progress milestones for clinical RAG healthcare agents.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
