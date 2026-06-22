@@ -84,7 +84,7 @@ export default function SystemArchitecture({ simpleMode = false }: { simpleMode?
       <div className="space-y-6">
         {/* Simple Page Header */}
         <div className="pb-4 border-b border-stone-200">
-          <h2 className="text-2xl font-bold font-display text-stone-900 tracking-tight flex items-center gap-2.5">
+          <h2 className="text-3xl font-bold font-display text-stone-900 tracking-tight flex items-center gap-2.5">
             <Layers className="h-6 w-6 text-amber-700" />
             How Muhammad Imran's System Works
           </h2>
@@ -104,7 +104,7 @@ export default function SystemArchitecture({ simpleMode = false }: { simpleMode?
             {/* Step 1 */}
             <div className="bg-white p-5 rounded-xl border border-stone-200 text-center relative flex flex-col justify-between">
               <div>
-                <span className="text-[10px] font-mono font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full">STEP 1</span>
+                <span className="text-sm font-mono font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full">STEP 1</span>
                 <ImageIcon className="h-8 w-8 mx-auto my-3 text-stone-600" />
                 <h4 className="font-bold text-stone-900 text-sm">Image Scanner</h4>
                 <p className="text-xs text-stone-600 mt-1 lines-clamp-3 leading-relaxed">
@@ -116,7 +116,7 @@ export default function SystemArchitecture({ simpleMode = false }: { simpleMode?
             {/* Step 2 */}
             <div className="bg-white p-5 rounded-xl border border-stone-200 text-center relative flex flex-col justify-between">
               <div>
-                <span className="text-[10px] font-mono font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full">STEP 2</span>
+                <span className="text-sm font-mono font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full">STEP 2</span>
                 <Database className="h-8 w-8 mx-auto my-3 text-stone-600" />
                 <h4 className="font-bold text-stone-900 text-sm">Library Search</h4>
                 <p className="text-xs text-stone-600 mt-1 lines-clamp-3 leading-relaxed">
@@ -128,7 +128,7 @@ export default function SystemArchitecture({ simpleMode = false }: { simpleMode?
             {/* Step 3 */}
             <div className="bg-white p-5 rounded-xl border border-stone-200 text-center relative flex flex-col justify-between">
               <div>
-                <span className="text-[10px] font-mono font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full">STEP 3</span>
+                <span className="text-sm font-mono font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full">STEP 3</span>
                 <FileText className="h-8 w-8 mx-auto my-3 text-stone-600" />
                 <h4 className="font-bold text-stone-900 text-sm">Draft Organizer</h4>
                 <p className="text-xs text-stone-600 mt-1 lines-clamp-3 leading-relaxed">
@@ -140,7 +140,7 @@ export default function SystemArchitecture({ simpleMode = false }: { simpleMode?
             {/* Step 4 */}
             <div className="bg-white p-5 rounded-xl border border-stone-200 text-center relative flex flex-col justify-between">
               <div>
-                <span className="text-[10px] font-mono font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full">STEP 4</span>
+                <span className="text-sm font-mono font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full">STEP 4</span>
                 <Cpu className="h-8 w-8 mx-auto my-3 text-stone-600" />
                 <h4 className="font-bold text-stone-900 text-sm">Medical Writer</h4>
                 <p className="text-xs text-stone-600 mt-1 lines-clamp-3 leading-relaxed">
@@ -189,7 +189,7 @@ export default function SystemArchitecture({ simpleMode = false }: { simpleMode?
       {/* Header Bar */}
       <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-100 gap-4">
         <div>
-          <h2 className="text-2xl font-bold font-display text-slate-900 tracking-tight flex items-center gap-2.5">
+          <h2 className="text-3xl font-bold font-display text-slate-900 tracking-tight flex items-center gap-2.5">
             <Layers className="h-6 w-6 text-blue-600" />
             System Framework Architecture
           </h2>
@@ -206,25 +206,25 @@ export default function SystemArchitecture({ simpleMode = false }: { simpleMode?
       {/* Quick Infrastructure Table / Matrix Grid */}
       <div className="bg-white rounded-xl border border-slate-100 overflow-hidden shadow-xs">
         <div className="p-4 bg-slate-50/50 border-b border-slate-100 flex items-center justify-between">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono">Core Infrastructure Stack</span>
-          <span className="text-[10px] text-slate-400 font-mono">System requirements validated</span>
+          <span className="text-sm font-bold text-slate-400 uppercase tracking-widest font-mono">Core Infrastructure Stack</span>
+          <span className="text-sm text-slate-400 font-mono">System requirements validated</span>
         </div>
         
         <div className="divide-y divide-slate-100">
           {ARCH_LAYERS.map((layer) => (
             <div key={layer.id} className="p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 hover:bg-slate-50/20 transition-all">
               <div className="md:w-1/4 shrink-0">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider font-mono block">Layer Area</span>
+                <span className="text-sm font-bold text-slate-400 uppercase tracking-wider font-mono block">Layer Area</span>
                 <span className="text-xs font-semibold text-slate-650 mt-0.5 block">{layer.layer}</span>
               </div>
               <div className="md:w-1/4 shrink-0">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider font-mono block">Selected Stack</span>
+                <span className="text-sm font-bold text-slate-400 uppercase tracking-wider font-mono block">Selected Stack</span>
                 <span className="text-xs font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded border border-slate-200 mt-0.5 inline-block font-mono">
                   {layer.value}
                 </span>
               </div>
               <div className="flex-1 md:pl-4">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider font-mono block">Trace Implementation Justification</span>
+                <span className="text-sm font-bold text-slate-400 uppercase tracking-wider font-mono block">Trace Implementation Justification</span>
                 <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed mt-0.5">
                   {layer.why}
                 </p>
@@ -241,7 +241,7 @@ export default function SystemArchitecture({ simpleMode = false }: { simpleMode?
             <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest font-mono">Interactive Vector Ingestion Pipeline</h3>
             <p className="text-xs text-slate-400 mt-1">Click any step in the data pipeline to inspect its processing format, input/output data rules, and back-end source code.</p>
           </div>
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider font-mono">Select Step Below</span>
+          <span className="text-sm font-bold text-slate-400 uppercase tracking-wider font-mono">Select Step Below</span>
         </div>
 
         {/* Workflow horizontal blocks */}
@@ -261,7 +261,7 @@ export default function SystemArchitecture({ simpleMode = false }: { simpleMode?
                 id={`step-tab-${step.id}`}
               >
                 <div className="flex justify-between items-start">
-                  <span className="text-[9px] font-bold font-mono text-slate-400">0{idx + 1}</span>
+                  <span className="text-xs font-bold font-mono text-slate-400">0{idx + 1}</span>
                   {isActive && <Sparkles className="h-3.5 w-3.5 text-blue-500 animate-pulse" />}
                 </div>
                 <h4 className={`text-xs font-bold leading-tight ${isActive ? 'text-blue-700' : 'text-slate-800'}`}>
@@ -277,18 +277,18 @@ export default function SystemArchitecture({ simpleMode = false }: { simpleMode?
           {/* Properties description block */}
           <div className="lg:col-span-5 space-y-4">
             <div>
-              <span className="text-[9px] font-bold text-blue-600 font-mono uppercase tracking-widest">Active Component Analysis</span>
+              <span className="text-xs font-bold text-blue-600 font-mono uppercase tracking-widest">Active Component Analysis</span>
               <h4 className="text-base font-bold text-slate-900 mt-0.5">{currentStep.title}</h4>
               <p className="text-xs text-slate-600 leading-relaxed mt-2">{currentStep.desc}</p>
             </div>
 
             <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-100">
               <div className="p-2.5 bg-white rounded-lg border border-slate-150/80">
-                <span className="text-[9px] font-extrabold text-slate-400 font-mono block">Data Inbound</span>
+                <span className="text-xs font-extrabold text-slate-400 font-mono block">Data Inbound</span>
                 <span className="text-xs text-slate-800 font-bold block mt-0.5">{currentStep.input}</span>
               </div>
               <div className="p-2.5 bg-white rounded-lg border border-slate-150/80">
-                <span className="text-[9px] font-extrabold text-slate-400 font-mono block">Result Outbound</span>
+                <span className="text-xs font-extrabold text-slate-400 font-mono block">Result Outbound</span>
                 <span className="text-xs text-blue-700 font-bold block mt-0.5">{currentStep.output}</span>
               </div>
             </div>
@@ -302,9 +302,9 @@ export default function SystemArchitecture({ simpleMode = false }: { simpleMode?
                 <span className="h-2.5 w-2.5 rounded-full bg-amber-500" />
                 <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
               </div>
-              <span className="font-mono text-[9px] text-slate-500">{currentStep.id}.py</span>
+              <span className="font-mono text-xs text-slate-500">{currentStep.id}.py</span>
             </div>
-            <pre className="p-4 text-[10px] text-slate-300 font-mono overflow-x-auto select-all leading-relaxed bg-[#0b0c10]">
+            <pre className="p-4 text-sm text-slate-300 font-mono overflow-x-auto select-all leading-relaxed bg-[#0b0c10]">
               <code>{currentStep.code}</code>
             </pre>
           </div>

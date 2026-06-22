@@ -60,20 +60,20 @@ export default function ProgressTrack({ simpleMode = false }: { simpleMode?: boo
         {/* Simple Page Header */}
         <div className="pb-4 border-b border-stone-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-bold font-display text-stone-900 tracking-tight flex items-center gap-2.5">
-              <Milestone className="h-6 w-6 text-amber-700" />
+            <h2 className="text-3xl font-bold font-display text-stone-900 tracking-tight flex items-center gap-2.5">
+              <Milestone className="h-7 w-7 text-amber-700" />
               Our Dissertation Work Plan
             </h2>
-            <p className="text-sm text-stone-600 mt-1">
+            <p className="text-base text-stone-600 mt-1.5">
               A dynamic, real-time interactive checklist tracking Muhammad Imran's progress toward the final thesis submission.
             </p>
           </div>
 
           {/* Progress bar info */}
-          <div className="flex items-center gap-3 bg-stone-900 text-[#FCFBF9] px-4 py-2.5 rounded-xl text-xs font-semibold">
+          <div className="flex items-center gap-3 bg-stone-900 text-[#FCFBF9] px-5 py-3 rounded-xl text-sm font-semibold">
             <div className="text-right">
-              <span className="text-[9px] uppercase font-bold text-amber-100 block font-mono">My Thesis Progress</span>
-              <span className="font-mono text-sm text-amber-400 font-bold">{progressStats.percent}% Completed</span>
+              <span className="text-xs uppercase font-bold text-amber-100 block font-mono">My Thesis Progress</span>
+              <span className="font-mono text-lg text-amber-400 font-bold">{progressStats.percent}% Completed</span>
             </div>
             <div className="w-16 bg-stone-800 h-2.5 rounded-full overflow-hidden shrink-0 border border-stone-700">
               <div 
@@ -85,11 +85,11 @@ export default function ProgressTrack({ simpleMode = false }: { simpleMode?: boo
         </div>
 
         {/* Dynamic Checklist Card container */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-5">
           
           {/* Timeline side */}
-          <div className="lg:col-span-7 bg-white border border-stone-200 rounded-xl p-5 space-y-4">
-            <span className="text-xs font-bold text-stone-400 uppercase tracking-wider font-mono">Interactive Plan Chapters</span>
+          <div className="xl:col-span-8 bg-white border border-stone-200 rounded-xl p-6 space-y-4">
+            <span className="text-sm font-bold text-stone-500 uppercase tracking-wider font-mono">Interactive Plan Chapters</span>
             <div className="space-y-3">
               {phases.map((phase) => {
                 const isActive = activePhaseId === phase.id;
@@ -106,7 +106,7 @@ export default function ProgressTrack({ simpleMode = false }: { simpleMode?: boo
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded ${
+                      <span className={`text-sm font-mono font-bold px-2 py-0.5 rounded ${
                         phase.status === 'done' ? 'bg-emerald-100 text-emerald-800' :
                         phase.status === 'now' ? 'bg-amber-100 text-amber-800' :
                         'bg-stone-100 text-stone-600'
@@ -115,12 +115,12 @@ export default function ProgressTrack({ simpleMode = false }: { simpleMode?: boo
                          phase.status === 'now' ? '⏳ ACTIVE NOW' :
                          '🔜 UP NEXT'}
                       </span>
-                      <span className="text-xs text-stone-500 font-mono font-bold">
+                      <span className="text-sm text-stone-600 font-mono font-bold">
                         ({completedCount}/{phase.tasks.length} Completed)
                       </span>
                     </div>
-                    <h4 className="font-bold text-stone-900 text-sm mt-1">{phase.title}</h4>
-                    <p className="text-xs text-stone-600 line-clamp-2 leading-relaxed mt-0.5">{phase.desc}</p>
+                    <h4 className="font-bold text-stone-900 text-base mt-1.5">{phase.title}</h4>
+                    <p className="text-sm text-stone-600 line-clamp-3 leading-relaxed mt-1">{phase.desc}</p>
                   </div>
                 );
               })}
@@ -128,11 +128,11 @@ export default function ProgressTrack({ simpleMode = false }: { simpleMode?: boo
           </div>
 
           {/* Interactive Checklist side */}
-          <div className="lg:col-span-5 bg-white border border-stone-200 rounded-xl p-5 space-y-4">
+          <div className="xl:col-span-4 bg-white border border-stone-200 rounded-xl p-6 space-y-4">
             <div>
-              <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest font-mono">Detailed Supervisor Sign-off</span>
-              <h3 className="font-bold text-stone-900 text-base mt-0.5">Tasks for "{activePhase.title}"</h3>
-              <p className="text-xs text-stone-500 mt-1 leading-relaxed">
+              <span className="text-sm font-bold text-stone-500 uppercase tracking-widest font-mono">Detailed Supervisor Sign-off</span>
+              <h3 className="font-bold text-stone-900 text-lg mt-1">Tasks for "{activePhase.title}"</h3>
+              <p className="text-sm text-stone-600 mt-1.5 leading-relaxed">
                 Click any checkbox below to check off or test-complete tasks. Notice how our thesis progress score updates at the top!
               </p>
             </div>
@@ -142,7 +142,7 @@ export default function ProgressTrack({ simpleMode = false }: { simpleMode?: boo
                 <div 
                   key={task.title}
                   onClick={() => toggleTask(activePhase.id, task.title)}
-                  className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all select-none ${
+                  className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all select-none ${
                     task.completed 
                       ? 'bg-emerald-50/20 border-emerald-250 text-stone-900' 
                       : 'bg-[#FDFCFB]/80 hover:bg-[#FAF8F5] border-stone-200 text-stone-600'
@@ -150,12 +150,12 @@ export default function ProgressTrack({ simpleMode = false }: { simpleMode?: boo
                 >
                   <button className="shrink-0 mt-0.5">
                     {task.completed ? (
-                      <CheckCircle className="h-4.5 w-4.5 text-emerald-800 shrink-0" />
+                      <CheckCircle className="h-5 w-5 text-emerald-800 shrink-0" />
                     ) : (
-                      <Circle className="h-4.5 w-4.5 text-stone-400 shrink-0" />
+                      <Circle className="h-5 w-5 text-stone-400 shrink-0" />
                     )}
                   </button>
-                  <span className={`text-xs select-none ${task.completed ? 'line-through font-semibold text-stone-500' : ''}`}>
+                  <span className={`text-base select-none leading-snug ${task.completed ? 'line-through font-semibold text-stone-500' : ''}`}>
                     {task.title}
                   </span>
                 </div>
@@ -174,7 +174,7 @@ export default function ProgressTrack({ simpleMode = false }: { simpleMode?: boo
       {/* Header Bar */}
       <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-100 gap-4">
         <div>
-          <h2 className="text-2xl font-bold font-display text-slate-900 tracking-tight flex items-center gap-2.5">
+          <h2 className="text-3xl font-bold font-display text-slate-900 tracking-tight flex items-center gap-2.5">
             <Milestone className="h-6 w-6 text-blue-600" />
             Implementation Progress Tracker
           </h2>
@@ -186,7 +186,7 @@ export default function ProgressTrack({ simpleMode = false }: { simpleMode?: boo
         {/* Dynamic overall progress meter */}
         <div className="flex items-center gap-3 bg-slate-900 text-slate-100 px-4 py-2 rounded-xl text-xs font-semibold border border-slate-950 shadow-md">
           <div className="text-right">
-            <span className="text-[9px] uppercase font-bold text-slate-400 block font-mono">Completed Core Tasks</span>
+            <span className="text-xs uppercase font-bold text-slate-400 block font-mono">Completed Core Tasks</span>
             <span className="font-mono text-sm text-sky-400 font-bold">{progressStats.percent}% Overall Complete</span>
           </div>
           <div className="w-16 bg-slate-800 h-2.5 rounded-full overflow-hidden shrink-0 border border-slate-700">
@@ -243,8 +243,8 @@ export default function ProgressTrack({ simpleMode = false }: { simpleMode?: boo
                   {/* Text descriptions */}
                   <div className="flex-1 space-y-1.5 min-w-0">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="font-mono text-[10px] font-bold text-slate-400 uppercase">{phase.id}</span>
-                      <span className="text-[10px] text-slate-400 font-mono font-bold">
+                      <span className="font-mono text-sm font-bold text-slate-400 uppercase">{phase.id}</span>
+                      <span className="text-sm text-slate-400 font-mono font-bold">
                         {compCount} of {phase.tasks.length} Done
                       </span>
                     </div>
@@ -263,8 +263,8 @@ export default function ProgressTrack({ simpleMode = false }: { simpleMode?: boo
         <div className="lg:col-span-5 bg-white border border-slate-100 rounded-2xl p-5 shadow-xs space-y-4 self-start">
           <div>
             <div className="flex items-center justify-between">
-              <span className="text-[9px] font-bold text-blue-600 font-mono uppercase tracking-widest">Active Checklist</span>
-              <span className="flex items-center gap-1 text-[10px] text-amber-500 font-bold font-mono">
+              <span className="text-xs font-bold text-blue-600 font-mono uppercase tracking-widest">Active Checklist</span>
+              <span className="flex items-center gap-1 text-sm text-amber-500 font-bold font-mono">
                 <Clock className="h-3.5 w-3.5 text-amber-500" /> TIMELINE EXECUTABLE
               </span>
             </div>

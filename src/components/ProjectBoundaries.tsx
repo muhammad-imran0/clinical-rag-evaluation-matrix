@@ -36,7 +36,7 @@ export default function ProjectBoundaries({ simpleMode = false }: { simpleMode?:
       <div className="space-y-6">
         {/* Simple Page Header */}
         <div className="pb-4 border-b border-stone-200">
-          <h2 className="text-2xl font-bold font-display text-stone-900 tracking-tight flex items-center gap-2.5">
+          <h2 className="text-3xl font-bold font-display text-stone-900 tracking-tight flex items-center gap-2.5">
             <ShieldAlert className="h-6 w-6 text-amber-700" />
             Project Rules & Boundaries
           </h2>
@@ -55,7 +55,7 @@ export default function ProjectBoundaries({ simpleMode = false }: { simpleMode?:
                 <div className="p-2.5 bg-amber-50 text-amber-800 border border-amber-200 rounded-lg">
                   <Cpu className="h-5 w-5" />
                 </div>
-                <span className="text-[10px] uppercase font-bold text-stone-400 font-mono">Limit 01</span>
+                <span className="text-sm uppercase font-bold text-stone-400 font-mono">Limit 01</span>
               </div>
               <div>
                 <h3 className="font-bold text-stone-900 text-base">Humble Computer Power</h3>
@@ -77,7 +77,7 @@ export default function ProjectBoundaries({ simpleMode = false }: { simpleMode?:
                 <div className="p-2.5 bg-amber-50 text-amber-800 border border-amber-200 rounded-lg">
                   <Database className="h-5 w-5" />
                 </div>
-                <span className="text-[10px] uppercase font-bold text-stone-400 font-mono">Limit 02</span>
+                <span className="text-sm uppercase font-bold text-stone-400 font-mono">Limit 02</span>
               </div>
               <div>
                 <h3 className="font-bold text-stone-900 text-base">Ethical Data Access</h3>
@@ -99,7 +99,7 @@ export default function ProjectBoundaries({ simpleMode = false }: { simpleMode?:
                 <div className="p-2.5 bg-amber-50 text-amber-800 border border-amber-200 rounded-lg">
                   <ShieldAlert className="h-5 w-5" />
                 </div>
-                <span className="text-[10px] uppercase font-bold text-stone-400 font-mono">Limit 03</span>
+                <span className="text-sm uppercase font-bold text-stone-400 font-mono">Limit 03</span>
               </div>
               <div>
                 <h3 className="font-bold text-stone-900 text-base">No Actual Patient Risks</h3>
@@ -134,7 +134,7 @@ export default function ProjectBoundaries({ simpleMode = false }: { simpleMode?:
       {/* Header Bar */}
       <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-100 gap-4">
         <div>
-          <h2 className="text-2xl font-bold font-display text-slate-900 tracking-tight flex items-center gap-2.5">
+          <h2 className="text-3xl font-bold font-display text-slate-900 tracking-tight flex items-center gap-2.5">
             <ShieldAlert className="h-6 w-6 text-blue-600" />
             Project Boundaries & Constraints
           </h2>
@@ -170,7 +170,7 @@ export default function ProjectBoundaries({ simpleMode = false }: { simpleMode?:
                   }`}>
                     <IconComponent className="h-5.5 w-5.5 shrink-0" />
                   </div>
-                  <span className="text-[10px] font-mono font-bold text-slate-400">CONSTRAINT [0{index + 1}]</span>
+                  <span className="text-sm font-mono font-bold text-slate-400">CONSTRAINT [0{index + 1}]</span>
                 </div>
 
                 {/* Content description list */}
@@ -183,19 +183,19 @@ export default function ProjectBoundaries({ simpleMode = false }: { simpleMode?:
               {/* Advanced Threat / Mitigation boxes */}
               <div className="mt-6 pt-4 border-t border-slate-50 space-y-3.5">
                 <div className="space-y-1">
-                  <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider font-mono flex items-center gap-1">
+                  <span className="text-sm font-bold text-red-500 uppercase tracking-wider font-mono flex items-center gap-1">
                     <AlertTriangle className="h-3 w-3 shrink-0" /> Potential Risk Gaps
                   </span>
-                  <p className="text-[11.5px] text-slate-500 font-sans leading-relaxed">
+                  <p className="text-sm text-slate-500 font-sans leading-relaxed">
                     {threatData?.threat}
                   </p>
                 </div>
 
                 <div className="space-y-1 p-2.5 bg-emerald-50/30 border border-emerald-100/40 rounded-lg">
-                  <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider font-mono flex items-center gap-1">
+                  <span className="text-sm font-bold text-emerald-700 uppercase tracking-wider font-mono flex items-center gap-1">
                     <CheckCircle className="h-3 w-3 text-emerald-600 shrink-0" /> Architecture Mitigation
                   </span>
-                  <p className="text-[11.5px] text-emerald-800 font-sans leading-relaxed font-normal">
+                  <p className="text-sm text-emerald-800 font-sans leading-relaxed font-normal">
                     {threatData?.mitigation}
                   </p>
                 </div>
