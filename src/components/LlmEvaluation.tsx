@@ -97,33 +97,33 @@ export default function LlmEvaluation() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-100 gap-4">
         <div>
-          <h2 className="text-2xl font-bold font-display text-slate-900 tracking-tight flex items-center gap-2.5">
-            <Cpu className="h-6 w-6 text-blue-600" />
+          <h2 className="text-3xl font-bold font-display text-slate-900 tracking-tight flex items-center gap-2.5">
+            <Cpu className="h-7 w-7 text-blue-600" />
             Medical LLM Matrix Analysis (§5.4)
           </h2>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-sm text-slate-500 mt-1.5">
             Qualitative and quantitative benchmark metrics mapping clinical LLMs against dissertation sandbox execution constraints.
           </p>
         </div>
-        <div className="flex items-center gap-2 bg-indigo-50 border border-indigo-100 px-3 py-1.5 rounded-lg text-slate-600 text-xs font-semibold">
+        <div className="flex items-center gap-2 bg-indigo-50 border border-indigo-100 px-4 py-2 rounded-lg text-slate-600 text-sm font-semibold">
           <Activity className="h-3.5 w-3.5 text-indigo-500 animate-pulse" />
           <span>Active Test Target: Hugging Face BioGPT</span>
         </div>
       </div>
 
       {/* Main Grid: Comparative Table + Detail Panel */}
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-5">
         {/* Table Column */}
-        <div className="xl:col-span-8 bg-white border border-slate-100 shadow-xs rounded-xl overflow-hidden self-start">
+        <div className="xl:col-span-9 bg-white border border-slate-100 shadow-xs rounded-xl overflow-hidden self-start">
           <div className="p-4 bg-slate-50/50 border-b border-slate-100 flex items-center justify-between">
-            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest font-mono">Literature Evaluation Matrix</h3>
-            <span className="text-[10px] text-slate-400 font-mono">Click a row to inspect detailed profile</span>
+            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest font-mono">Literature Evaluation Matrix</h3>
+            <span className="text-sm text-slate-400 font-mono">Click a row to inspect detailed profile</span>
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-left border-collapse text-sm">
               <thead>
-                <tr className="bg-slate-50 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100">
+                <tr className="bg-slate-50 text-sm font-bold text-slate-500 uppercase tracking-wider border-b border-slate-100">
                   <th className="p-4">Model Details</th>
                   <th className="p-4 text-center">MedQA Accuracy</th>
                   <th className="p-4 text-center">USMLE Benchmark</th>
@@ -149,10 +149,10 @@ export default function LlmEvaluation() {
                         <div className="flex items-start gap-2">
                           <div className={`mt-1 h-2 w-2 rounded-full ${isPrimaryOrComparative ? 'bg-emerald-500' : 'bg-slate-300'}`} />
                           <div>
-                            <span className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors text-sm">
+                            <span className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors text-base">
                               {model.name}
                             </span>
-                            <span className="text-xs text-slate-400 block mt-0.5 max-w-sm truncate">
+                            <span className="text-sm text-slate-500 block mt-0.5">
                               {model.description}
                             </span>
                           </div>
@@ -163,8 +163,8 @@ export default function LlmEvaluation() {
                       <td className="p-4 text-center">
                         {model.medQa ? (
                           <div className="inline-flex flex-col items-center">
-                            <span className="text-xs font-bold font-mono text-slate-700">{model.medQa}%</span>
-                            <div className="w-20 bg-slate-100 h-1.5 rounded-full mt-1 overflow-hidden">
+                            <span className="text-sm font-bold font-mono text-slate-700">{model.medQa}%</span>
+                            <div className="w-24 bg-slate-100 h-2 rounded-full mt-1 overflow-hidden">
                               <div 
                                 className={`h-full rounded-full ${isSelected ? 'bg-blue-600' : 'bg-slate-400'}`}
                                 style={{ width: `${model.medQa}%` }}
@@ -172,7 +172,7 @@ export default function LlmEvaluation() {
                             </div>
                           </div>
                         ) : (
-                          <span className="text-xs text-slate-300 font-mono">—</span>
+                          <span className="text-sm text-slate-300 font-mono">—</span>
                         )}
                       </td>
 
@@ -180,8 +180,8 @@ export default function LlmEvaluation() {
                       <td className="p-4 text-center">
                         {model.usmle ? (
                           <div className="inline-flex flex-col items-center">
-                            <span className="text-xs font-bold font-mono text-slate-700">{model.usmle}%</span>
-                            <div className="w-20 bg-slate-100 h-1.5 rounded-full mt-1 overflow-hidden">
+                            <span className="text-sm font-bold font-mono text-slate-700">{model.usmle}%</span>
+                            <div className="w-24 bg-slate-100 h-2 rounded-full mt-1 overflow-hidden">
                               <div 
                                 className="h-full bg-slate-400 rounded-full"
                                 style={{ width: `${model.usmle}%` }}
@@ -189,17 +189,17 @@ export default function LlmEvaluation() {
                             </div>
                           </div>
                         ) : (
-                          <span className="text-xs text-slate-300 font-mono">—</span>
+                          <span className="text-sm text-slate-300 font-mono">—</span>
                         )}
                       </td>
 
                       {/* Badge and resource tag */}
                       <td className="p-4">
-                        <div className="flex flex-col gap-1 items-start">
-                          <span className={`px-2 py-0.5 rounded text-[10px] font-semibold border ${statusColors[model.status]}`}>
+                        <div className="flex flex-col gap-1.5 items-start">
+                          <span className={`px-2.5 py-1 rounded text-sm font-semibold border ${statusColors[model.status]}`}>
                             {model.id === 'biogpt' ? 'Primary Active' : model.id === 'clinical-camel' ? 'Colab Prototype' : 'Reference Model'}
                           </span>
-                          <span className="text-[10px] text-slate-400 font-mono truncate max-w-xs">{model.resourceCode}</span>
+                          <span className="text-sm text-slate-500 font-mono">{model.resourceCode}</span>
                         </div>
                       </td>
                     </tr>
@@ -211,30 +211,30 @@ export default function LlmEvaluation() {
         </div>
 
         {/* Sidebar details block */}
-        <div className="xl:col-span-4 bg-slate-900 border border-slate-950 rounded-xl p-5 text-slate-200 shadow-md">
+        <div className="xl:col-span-3 bg-slate-900 border border-slate-950 rounded-xl p-5 text-slate-200 shadow-md">
           <div className="pb-4 border-b border-slate-800 flex items-center justify-between">
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest font-mono">Evaluation Node Info</span>
+            <span className="text-sm font-bold text-slate-500 uppercase tracking-widest font-mono">Evaluation Node Info</span>
             <Cpu className="h-4 w-4 text-blue-400" />
           </div>
 
           <div className="py-4 space-y-4">
             <div>
-              <h4 className="text-base font-bold text-slate-55 flex items-center gap-1.5">
+              <h4 className="text-lg font-bold text-slate-55 flex items-center gap-1.5">
                 {selectedModel.name}
               </h4>
-              <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+              <p className="text-sm text-slate-400 mt-1 leading-relaxed">
                 {selectedModel.description}
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-3 pb-3 border-b border-slate-800">
               <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-                <span className="text-[9px] text-slate-500 font-bold block font-mono">MedQA Accuracy</span>
-                <span className="text-lg font-bold text-sky-400 font-mono">{selectedModel.medQa ? `${selectedModel.medQa}%` : 'N/A'}</span>
+                <span className="text-xs text-slate-500 font-bold block font-mono">MedQA Accuracy</span>
+                <span className="text-xl font-bold text-sky-400 font-mono">{selectedModel.medQa ? `${selectedModel.medQa}%` : 'N/A'}</span>
               </div>
               <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-                <span className="text-[9px] text-slate-500 font-bold block font-mono">Execution Class</span>
-                <span className="text-[11px] font-bold text-slate-300 font-mono block mt-1 truncate uppercase" title={selectedModel.resourceCode}>
+                <span className="text-xs text-slate-500 font-bold block font-mono">Execution Class</span>
+                <span className="text-sm font-bold text-slate-300 font-mono block mt-1 truncate uppercase" title={selectedModel.resourceCode}>
                   {selectedModel.status === 'validated' ? 'Validated local' : 'High Resource'}
                 </span>
               </div>
@@ -242,10 +242,10 @@ export default function LlmEvaluation() {
 
             {/* Pros List */}
             <div className="space-y-2">
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider font-mono flex items-center gap-1"><ThumbsUp className="h-3 w-3 text-emerald-450" /> Dissertation Pros</span>
-              <ul className="text-xs text-slate-300 space-y-1.5 list-none pl-1">
+              <span className="text-sm font-bold text-slate-500 uppercase tracking-wider font-mono flex items-center gap-1"><ThumbsUp className="h-3.5 w-3.5 text-emerald-450" /> Dissertation Pros</span>
+              <ul className="text-sm text-slate-300 space-y-2 list-none pl-1">
                 {selectedModel.pros.map((pro, idx) => (
-                  <li key={idx} className="flex gap-2 items-start text-xs leading-snug">
+                  <li key={idx} className="flex gap-2 items-start text-sm leading-relaxed">
                     <span className="text-emerald-400 shrink-0 select-none">✓</span>
                     <span>{pro}</span>
                   </li>
@@ -255,10 +255,10 @@ export default function LlmEvaluation() {
 
             {/* Cons List */}
             <div className="space-y-2">
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider font-mono flex items-center gap-1"><ThumbsDown className="h-3 w-3 text-rose-450" /> Implementation Gaps</span>
-              <ul className="text-xs text-slate-300 space-y-1.5 list-none pl-1">
+              <span className="text-sm font-bold text-slate-500 uppercase tracking-wider font-mono flex items-center gap-1"><ThumbsDown className="h-3.5 w-3.5 text-rose-450" /> Implementation Gaps</span>
+              <ul className="text-sm text-slate-300 space-y-2 list-none pl-1">
                 {selectedModel.cons.map((con, idx) => (
-                  <li key={idx} className="flex gap-2 items-start text-xs leading-snug">
+                  <li key={idx} className="flex gap-2 items-start text-sm leading-relaxed">
                     <span className="text-rose-400 shrink-0 select-none">🗙</span>
                     <span>{con}</span>
                   </li>
@@ -277,11 +277,11 @@ export default function LlmEvaluation() {
               <Terminal className="h-5 w-5" />
             </div>
             <div>
-              <h3 className="text-sm md:text-base font-bold text-white tracking-tight flex items-center gap-1.5">
+              <h3 className="text-lg font-bold text-white tracking-tight flex items-center gap-1.5">
                 RAG Pipeline Clinical Simulator 
-                <span className="inline-flex items-center px-2 py-0.5 rounded text-[9px] font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20 font-mono">PORTABLE SANDBOX</span>
+                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20 font-mono">PORTABLE SANDBOX</span>
               </h3>
-              <p className="text-xs text-slate-400 mt-0.5">Simulate actual retrieval vectors and prompt outputs generated by both models under identical environments.</p>
+              <p className="text-sm text-slate-400 mt-1">Simulate actual retrieval vectors and prompt outputs generated by both models under identical environments.</p>
             </div>
           </div>
 
@@ -292,7 +292,7 @@ export default function LlmEvaluation() {
                 onClick={() => { setActivePromptId(prompt.id); }}
                 id={`sim-prompt-${prompt.id}`}
                 className={`
-                  px-3 py-1.5 rounded-lg text-xs whitespace-nowrap transition-all border shrink-0 cursor-pointer
+                  px-4 py-2 rounded-lg text-sm whitespace-nowrap transition-all border shrink-0 cursor-pointer
                   ${activePromptId === prompt.id 
                     ? 'bg-blue-600 text-white font-semibold border-blue-500/50 shadow-md shadow-blue-500/10' 
                     : 'bg-slate-900 hover:bg-slate-850 text-slate-400 border-slate-800'}
@@ -307,14 +307,14 @@ export default function LlmEvaluation() {
         {/* Input specifications */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="bg-slate-900/60 rounded-xl p-4 border border-slate-800 space-y-2">
-            <span className="text-[10px] font-bold text-blue-400 uppercase tracking-widest block font-mono">User / Physician Symptom Parameters</span>
-            <blockquote className="text-[13px] text-slate-200 font-sans italic leading-relaxed border-l-2 border-slate-700 pl-3">
+            <span className="text-sm font-bold text-blue-400 uppercase tracking-widest block font-mono">User / Physician Symptom Parameters</span>
+            <blockquote className="text-base text-slate-200 font-sans italic leading-relaxed border-l-2 border-slate-700 pl-3">
               "{currentPrompt.symptoms}"
             </blockquote>
           </div>
           <div className="bg-slate-900/60 rounded-xl p-4 border border-slate-800 space-y-2">
-            <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest block font-mono">Qdrant Vector Retrieval Output (K-1 Match)</span>
-            <p className="text-[12.5px] text-slate-300 font-sans font-medium">
+            <span className="text-sm font-bold text-purple-400 uppercase tracking-widest block font-mono">Qdrant Vector Retrieval Output (K-1 Match)</span>
+            <p className="text-base text-slate-300 font-sans font-medium">
               {currentPrompt.retrievedContext}
             </p>
           </div>
@@ -326,7 +326,7 @@ export default function LlmEvaluation() {
             onClick={handleSimulate}
             disabled={isSimulating}
             className={`
-              inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-xs transition-all tracking-wider uppercase shadow-md cursor-pointer
+              inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all tracking-wider uppercase shadow-md cursor-pointer
               ${isSimulating 
                 ? 'bg-slate-800 text-slate-450 border border-slate-750 cursor-not-allowed'
                 : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white border border-blue-500/10 shadow-blue-500/10'}
@@ -354,14 +354,14 @@ export default function LlmEvaluation() {
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div className="flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
-                <span className="text-sm font-bold text-slate-100">BioGPT Output Target</span>
+                <span className="text-base font-bold text-slate-100">BioGPT Output Target</span>
               </div>
-              <span className="text-[10px] font-bold text-slate-500 font-mono">Domain Fine-Tuned</span>
+              <span className="text-sm font-bold text-slate-500 font-mono">Domain Fine-Tuned</span>
             </div>
 
             {/* Output prompt text */}
-            <div className="min-h-[140px] bg-slate-950 rounded-lg p-3 border border-slate-850">
-              <pre className="text-[12px] font-mono text-emerald-400 leading-relaxed whitespace-pre-wrap font-sans">
+            <div className="min-h-[140px] bg-slate-950 rounded-lg p-4 border border-slate-850">
+              <pre className="text-base font-mono text-emerald-400 leading-relaxed whitespace-pre-wrap font-sans">
                 {isSimulating ? 'Processing weights...' : currentPrompt.biogptOutput}
               </pre>
             </div>
@@ -369,15 +369,15 @@ export default function LlmEvaluation() {
             {/* BioGPT evaluation metrics */}
             <div className="grid grid-cols-3 gap-2 bg-slate-950 p-2.5 rounded-lg border border-slate-850/60">
               <div className="text-center">
-                <span className="text-[9px] text-slate-500 uppercase tracking-widest font-mono">BLEU Score</span>
-                <span className="text-xs font-bold text-slate-300 block font-mono mt-0.5">{currentPrompt.metrics.biogpt.bleu}%</span>
+                <span className="text-xs text-slate-500 uppercase tracking-widest font-mono">BLEU Score</span>
+                <span className="text-sm font-bold text-slate-300 block font-mono mt-0.5">{currentPrompt.metrics.biogpt.bleu}%</span>
               </div>
               <div className="text-center border-x border-slate-800">
-                <span className="text-[9px] text-slate-500 uppercase tracking-widest font-mono">ROUGE-L</span>
+                <span className="text-xs text-slate-500 uppercase tracking-widest font-mono">ROUGE-L</span>
                 <span className="text-xs font-bold text-slate-300 block font-mono mt-0.5">{currentPrompt.metrics.biogpt.rouge}%</span>
               </div>
               <div className="text-center">
-                <span className="text-[9px] text-slate-500 uppercase tracking-widest font-mono">RAGAS Factuality</span>
+                <span className="text-xs text-slate-500 uppercase tracking-widest font-mono">RAGAS Factuality</span>
                 <span className="text-xs font-bold text-sky-405 block font-mono mt-0.5">{currentPrompt.metrics.biogpt.ragas}</span>
               </div>
             </div>
@@ -388,14 +388,14 @@ export default function LlmEvaluation() {
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div className="flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-indigo-400 animate-pulse"></span>
-                <span className="text-sm font-bold text-slate-100">Clinical Camel Target</span>
+                <span className="text-base font-bold text-slate-100">Clinical Camel Target</span>
               </div>
-              <span className="text-[10px] font-bold text-slate-500 font-mono">Conversational Model</span>
+              <span className="text-sm font-bold text-slate-500 font-mono">Conversational Model</span>
             </div>
 
             {/* Output prompt text */}
-            <div className="min-h-[140px] bg-slate-950 rounded-lg p-3 border border-slate-850">
-              <pre className="text-[12px] font-mono text-indigo-300 leading-relaxed whitespace-pre-wrap font-sans">
+            <div className="min-h-[140px] bg-slate-950 rounded-lg p-4 border border-slate-850">
+              <pre className="text-base font-mono text-indigo-300 leading-relaxed whitespace-pre-wrap font-sans">
                 {isSimulating ? 'Processing weights...' : currentPrompt.clinicalCamelOutput}
               </pre>
             </div>
@@ -403,15 +403,15 @@ export default function LlmEvaluation() {
             {/* Clinical Camel evaluation metrics */}
             <div className="grid grid-cols-3 gap-2 bg-slate-950 p-2.5 rounded-lg border border-slate-850/60">
               <div className="text-center">
-                <span className="text-[9px] text-slate-500 uppercase tracking-widest font-mono">BLEU Score</span>
+                <span className="text-xs text-slate-500 uppercase tracking-widest font-mono">BLEU Score</span>
                 <span className="text-xs font-bold text-slate-300 block font-mono mt-0.5">{currentPrompt.metrics.camel.bleu}%</span>
               </div>
               <div className="text-center border-x border-slate-800">
-                <span className="text-[9px] text-slate-500 uppercase tracking-widest font-mono">ROUGE-L</span>
+                <span className="text-xs text-slate-500 uppercase tracking-widest font-mono">ROUGE-L</span>
                 <span className="text-xs font-bold text-slate-300 block font-mono mt-0.5">{currentPrompt.metrics.camel.rouge}%</span>
               </div>
               <div className="text-center">
-                <span className="text-[9px] text-slate-500 uppercase tracking-widest font-mono">RAGAS Factuality</span>
+                <span className="text-xs text-slate-500 uppercase tracking-widest font-mono">RAGAS Factuality</span>
                 <span className="text-xs font-bold text-indigo-400 block font-mono mt-0.5">{currentPrompt.metrics.camel.ragas}</span>
               </div>
             </div>
@@ -419,7 +419,7 @@ export default function LlmEvaluation() {
         </div>
 
         {/* Gap interpretation review */}
-        <div className="p-4 bg-blue-900/10 border border-blue-900/30 rounded-xl flex items-start gap-3 mt-4 text-xs">
+        <div className="p-4 bg-blue-900/10 border border-blue-900/30 rounded-xl flex items-start gap-3 mt-4 text-sm">
           <Activity className="h-4 w-4 text-blue-400 shrink-0 mt-0.5" />
           <div className="space-y-1">
             <span className="font-bold text-blue-400 font-mono uppercase tracking-wider block">Gaps & Tracing Annotation Analysis</span>

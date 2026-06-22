@@ -87,11 +87,11 @@ export default function SystemArchitecture() {
       {/* Header Bar */}
       <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-100 gap-4">
         <div>
-          <h2 className="text-2xl font-bold font-display text-slate-900 tracking-tight flex items-center gap-2.5">
+          <h2 className="text-3xl font-bold font-display text-slate-900 tracking-tight flex items-center gap-2.5">
             <Layers className="h-6 w-6 text-blue-600" />
             System Framework Architecture
           </h2>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-sm text-slate-500 mt-1.5">
             Component specifications, system dependencies, and interactive dataflow steps mapping the processing engine boundaries.
           </p>
         </div>
@@ -104,25 +104,25 @@ export default function SystemArchitecture() {
       {/* Quick Infrastructure Table / Matrix Grid */}
       <div className="bg-white rounded-xl border border-slate-100 overflow-hidden shadow-xs">
         <div className="p-4 bg-slate-50/50 border-b border-slate-100 flex items-center justify-between">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono">Core Infrastructure Stack</span>
-          <span className="text-[10px] text-slate-400 font-mono">System requirements validated</span>
+          <span className="text-xs font-bold text-slate-400 uppercase tracking-widest font-mono">Core Infrastructure Stack</span>
+          <span className="text-xs text-slate-400 font-mono">System requirements validated</span>
         </div>
         
         <div className="divide-y divide-slate-100">
           {ARCH_LAYERS.map((layer) => (
             <div key={layer.id} className="p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 hover:bg-slate-50/20 transition-all">
               <div className="md:w-1/4 shrink-0">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider font-mono block">Layer Area</span>
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono block">Layer Area</span>
                 <span className="text-xs font-semibold text-slate-650 mt-0.5 block">{layer.layer}</span>
               </div>
               <div className="md:w-1/4 shrink-0">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider font-mono block">Selected Stack</span>
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono block">Selected Stack</span>
                 <span className="text-xs font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded border border-slate-200 mt-0.5 inline-block font-mono">
                   {layer.value}
                 </span>
               </div>
               <div className="flex-1 md:pl-4">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider font-mono block">Trace Implementation Justification</span>
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono block">Trace Implementation Justification</span>
                 <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed mt-0.5">
                   {layer.why}
                 </p>
@@ -139,7 +139,7 @@ export default function SystemArchitecture() {
             <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest font-mono">Interactive Vector Ingestion Pipeline</h3>
             <p className="text-xs text-slate-400 mt-1">Click any step in the data pipeline to inspect its processing format, input/output data rules, and back-end source code.</p>
           </div>
-          <span className="text-[10px] font-mono text-slate-400 flex items-center gap-1">
+          <span className="text-xs font-mono text-slate-400 flex items-center gap-1">
             <Code className="h-3.5 w-3.5" />
             Python PyTorch Core
           </span>
@@ -163,14 +163,14 @@ export default function SystemArchitecture() {
               >
                 {/* Visual Step numbering */}
                 <div className="flex justify-between items-center mb-2">
-                  <span className={`text-[10px] font-bold font-mono ${isActive ? 'text-blue-200' : 'text-slate-400'}`}>
+                  <span className={`text-xs font-bold font-mono ${isActive ? 'text-blue-200' : 'text-slate-400'}`}>
                     STEP 0{idx + 1}
                   </span>
                   <div className={`h-2 w-2 rounded-full ${isActive ? 'bg-white animate-pulse' : 'bg-slate-200'}`} />
                 </div>
 
                 <span className="text-xs font-bold leading-tight truncate">{step.title}</span>
-                <span className={`text-[9px] font-mono mt-1 ${isActive ? 'text-blue-105' : 'text-slate-500'}`}>
+                <span className={`text-xs font-mono mt-1 ${isActive ? 'text-blue-105' : 'text-slate-500'}`}>
                   {step.metric}
                 </span>
 
@@ -191,33 +191,33 @@ export default function SystemArchitecture() {
           <div className="lg:col-span-4 bg-slate-50 border border-slate-100 rounded-xl p-4 flex flex-col justify-between">
             <div className="space-y-3.5">
               <div className="flex items-center gap-2">
-                <span className="p-1 px-2 font-bold font-mono text-[10px] bg-sky-100 text-sky-700 border border-sky-150 rounded sm:inline">
+                <span className="p-1 px-2 font-bold font-mono text-xs bg-sky-100 text-sky-700 border border-sky-150 rounded sm:inline">
                   STEP ID: {currentStep.id.toUpperCase()}
                 </span>
                 <span className="text-xs font-bold text-slate-805">{currentStep.title}</span>
               </div>
 
               <div className="space-y-2">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider font-mono block">Data Formats</span>
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono block">Data Formats</span>
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <div className="p-2 bg-white rounded border border-slate-150/60">
-                    <span className="text-[9px] text-slate-400 block font-mono">INPUT</span>
+                    <span className="text-xs text-slate-400 block font-mono">INPUT</span>
                     <span className="font-semibold text-slate-700 truncate block mt-0.5" title={currentStep.input}>{currentStep.input}</span>
                   </div>
                   <div className="p-2 bg-white rounded border border-slate-150/60">
-                    <span className="text-[9px] text-slate-400 block font-mono">OUTPUT</span>
+                    <span className="text-xs text-slate-400 block font-mono">OUTPUT</span>
                     <span className="font-semibold text-slate-700 truncate block mt-0.5" title={currentStep.output}>{currentStep.output}</span>
                   </div>
                 </div>
               </div>
 
               <div className="space-y-1">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider font-mono block">Functional Method</span>
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono block">Functional Method</span>
                 <p className="text-xs text-slate-600 leading-relaxed font-sans">{currentStep.desc}</p>
               </div>
             </div>
 
-            <div className="text-[10px] font-mono text-slate-400 mt-4 border-t border-slate-200/60 pt-3">
+            <div className="text-xs font-mono text-slate-400 mt-4 border-t border-slate-200/60 pt-3">
               <span>Pipeline Integration verified</span>
             </div>
           </div>
@@ -231,13 +231,13 @@ export default function SystemArchitecture() {
                   <div className="h-2.5 w-2.5 rounded-full bg-amber-500" />
                   <div className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
                 </div>
-                <span className="text-[10px] text-slate-430 font-mono ml-2">Dissertation Core Module: pipeline.py</span>
+                <span className="text-xs text-slate-430 font-mono ml-2">Dissertation Core Module: pipeline.py</span>
               </div>
-              <span className="text-[10px] font-mono text-slate-500 uppercase font-semibold">PyTorch / Python 3.10</span>
+              <span className="text-xs font-mono text-slate-500 uppercase font-semibold">PyTorch / Python 3.10</span>
             </div>
 
             <div className="p-4 flex-1 overflow-x-auto">
-              <pre className="text-[11.5px] font-mono text-blue-150/90 leading-relaxed whitespace-pre">
+              <pre className="text-sm font-mono text-blue-150/90 leading-relaxed whitespace-pre">
                 {currentStep.code}
               </pre>
             </div>

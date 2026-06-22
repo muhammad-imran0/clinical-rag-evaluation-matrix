@@ -67,11 +67,11 @@ export default function DatabaseIndex() {
       {/* Header Bar */}
       <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-100 gap-4">
         <div>
-          <h2 className="text-2xl font-bold font-display text-slate-900 tracking-tight flex items-center gap-2.5">
+          <h2 className="text-3xl font-bold font-display text-slate-900 tracking-tight flex items-center gap-2.5">
             <Database className="h-6 w-6 text-blue-600" />
             Clinical Data Index
           </h2>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-sm text-slate-500 mt-1.5">
             Secure, anonymous medical dataset coordinates, MIMIC-CXR validation parameters, and Phase-1 prototype metadata.
           </p>
         </div>
@@ -104,7 +104,7 @@ export default function DatabaseIndex() {
       <div className="bg-white border border-slate-100 rounded-xl p-5 shadow-xs relative overflow-hidden space-y-5">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-100 pb-4 gap-4">
           <div>
-            <span className="text-[10px] uppercase font-bold text-slate-400 tracking-widest font-mono">Verified Validation Source</span>
+            <span className="text-xs uppercase font-bold text-slate-400 tracking-widest font-mono">Verified Validation Source</span>
             <h3 className="text-base font-bold text-slate-900 mt-0.5">{currentDataset.title}</h3>
             {currentDataset.link && (
               <a 
@@ -121,7 +121,7 @@ export default function DatabaseIndex() {
 
           <div className="flex flex-wrap gap-1.5 shrink-0">
             {currentDataset.statusTags.map((t, idx) => (
-              <span key={idx} className="px-2.5 py-1 text-[11px] font-semibold rounded bg-emerald-50 text-emerald-850 border border-emerald-100">
+              <span key={idx} className="px-2.5 py-1 text-sm font-semibold rounded bg-emerald-50 text-emerald-850 border border-emerald-100">
                 {t}
               </span>
             ))}
@@ -133,7 +133,7 @@ export default function DatabaseIndex() {
           {currentDataset.stats.map((stat, idx) => (
             <div key={idx} className="bg-slate-50/50 border border-slate-100/80 p-4 rounded-xl text-center shadow-2xs hover:bg-slate-50">
               <span className="text-lg md:text-2xl font-bold text-slate-900 font-mono block">{stat.value}</span>
-              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mt-1 font-mono">{stat.label}</span>
+              <span className="text-xs text-slate-400 font-bold uppercase tracking-wider block mt-1 font-mono">{stat.label}</span>
             </div>
           ))}
         </div>
@@ -141,11 +141,11 @@ export default function DatabaseIndex() {
         {/* Text descriptions */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
           <div className="p-4 bg-slate-50/40 rounded-xl border border-slate-100 space-y-2">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block font-mono">Case Findings Schema</span>
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block font-mono">Case Findings Schema</span>
             <p className="text-xs text-slate-600 leading-relaxed font-sans">{currentDataset.findings}</p>
           </div>
           <div className="p-4 bg-blue-50/20 rounded-xl border border-blue-100/60 space-y-2">
-            <span className="text-[10px] font-bold text-blue-600/80 uppercase tracking-wider block font-mono">Diagnostic Impressions Schema</span>
+            <span className="text-xs font-bold text-blue-600/80 uppercase tracking-wider block font-mono">Diagnostic Impressions Schema</span>
             <p className="text-xs text-slate-600 leading-relaxed font-sans">{currentDataset.impression}</p>
           </div>
         </div>
@@ -190,7 +190,7 @@ export default function DatabaseIndex() {
         <div className="bg-slate-900/60 p-5 rounded-xl border border-slate-850 space-y-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-800/80 pb-3 gap-2">
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold px-2 py-0.5 font-mono bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded">
+              <span className="text-xs font-bold px-2 py-0.5 font-mono bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded">
                 SIM ID: {activeRecord.id}
               </span>
               <span className="text-xs text-slate-400 font-sans font-medium">Anatomy Target: <strong className="text-slate-200">{activeRecord.anatomy}</strong></span>
@@ -198,7 +198,7 @@ export default function DatabaseIndex() {
 
             <div className="flex flex-wrap gap-1">
               {activeRecord.findingTags.map((t, idx) => (
-                <span key={idx} className="text-[9px] font-semibold bg-slate-800 px-2.5 py-0.5 rounded text-indigo-300 font-mono">
+                <span key={idx} className="text-xs font-semibold bg-slate-800 px-2.5 py-0.5 rounded text-indigo-300 font-mono">
                   {t}
                 </span>
               ))}
@@ -208,7 +208,7 @@ export default function DatabaseIndex() {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
             {/* Left Findings */}
             <div className="md:col-span-8 space-y-2">
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest font-mono flex items-center gap-1">
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-widest font-mono flex items-center gap-1">
                 <FileText className="h-3 w-3 text-blue-400" />
                 Raw Findings (Factual Transcription)
               </span>
@@ -219,7 +219,7 @@ export default function DatabaseIndex() {
 
             {/* Right Impressions */}
             <div className="md:col-span-4 space-y-2">
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest font-mono flex items-center gap-1">
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-widest font-mono flex items-center gap-1">
                 <CheckCircle2 className="h-3 w-3 text-emerald-450" />
                 Final Diagnostic Impression
               </span>
@@ -231,7 +231,7 @@ export default function DatabaseIndex() {
         </div>
 
         {/* Summary note */}
-        <div className="flex items-center gap-2 text-[11px] text-slate-400 bg-slate-900 border border-slate-850 p-3 rounded-lg font-mono">
+        <div className="flex items-center gap-2 text-sm text-slate-400 bg-slate-900 border border-slate-850 p-3 rounded-lg font-mono">
           <Info className="h-4 w-4 text-blue-500 shrink-0" />
           <span>Note: Storing reports in structured findings vs impression splits ensures the RAG pipeline models learn clean logical boundaries during cross-validation runs.</span>
         </div>

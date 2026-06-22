@@ -64,11 +64,11 @@ export default function ProgressTrack() {
       {/* Header Bar */}
       <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-100 gap-4">
         <div>
-          <h2 className="text-2xl font-bold font-display text-slate-900 tracking-tight flex items-center gap-2.5">
+          <h2 className="text-3xl font-bold font-display text-slate-900 tracking-tight flex items-center gap-2.5">
             <Milestone className="h-6 w-6 text-blue-600" />
             Implementation Progress Tracker
           </h2>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-sm text-slate-500 mt-1.5">
             Real-time interactive vertical timeline mapping research milestones, completed tasks, and upcoming pipeline assemblies.
           </p>
         </div>
@@ -76,7 +76,7 @@ export default function ProgressTrack() {
         {/* Dynamic overall progress meter */}
         <div className="flex items-center gap-3 bg-slate-900 text-slate-100 px-4 py-2 rounded-xl text-xs font-semibold border border-slate-955 shadow-md">
           <div className="text-right">
-            <span className="text-[9px] uppercase font-bold text-slate-400 block font-mono">Completed Core Tasks</span>
+            <span className="text-xs uppercase font-bold text-slate-400 block font-mono">Completed Core Tasks</span>
             <span className="font-mono text-sm text-sky-400 font-bold">{progressStats.percent}% Overall Complete</span>
           </div>
           <div className="w-16 bg-slate-800 h-2.5 rounded-full overflow-hidden shrink-0 border border-slate-700">
@@ -136,8 +136,8 @@ export default function ProgressTrack() {
                   {/* Body Content */}
                   <div className="flex-1 space-y-1.5">
                     <div className="flex items-center justify-between gap-2 overflow-hidden">
-                      <span className="text-[9px] uppercase font-mono font-bold text-slate-405 shrink-0">STAGE MODEL 0{idx + 1}</span>
-                      <span className={`text-[10px] uppercase font-mono font-bold px-2 py-0.5 rounded border shrink-0 ${
+                      <span className="text-xs uppercase font-mono font-bold text-slate-405 shrink-0">STAGE MODEL 0{idx + 1}</span>
+                      <span className={`text-xs uppercase font-mono font-bold px-2 py-0.5 rounded border shrink-0 ${
                         phase.status === 'done' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' :
                         phase.status === 'now' ? 'bg-blue-50 text-blue-700 border-blue-100 animate-pulse' :
                         'bg-slate-50 text-slate-500 border-slate-150'
@@ -151,7 +151,7 @@ export default function ProgressTrack() {
 
                     {/* Progress tracking badge details */}
                     <div className="flex items-center gap-3 pt-1">
-                      <div className="flex items-center gap-1 text-[10px] text-slate-400 font-mono">
+                      <div className="flex items-center gap-1 text-xs text-slate-400 font-mono">
                         <Clock className="h-3 w-3" />
                         <span>Tasks Check: {compCount} / {phase.tasks.length}</span>
                       </div>
@@ -161,7 +161,7 @@ export default function ProgressTrack() {
                           style={{ width: `${ratePercent}%` }}
                         />
                       </div>
-                      <span className="text-[10px] font-mono text-slate-400">{ratePercent}%</span>
+                      <span className="text-xs font-mono text-slate-400">{ratePercent}%</span>
                     </div>
                   </div>
                 </div>
@@ -174,13 +174,13 @@ export default function ProgressTrack() {
         <div className="lg:col-span-5 bg-slate-900 border border-slate-950 rounded-2xl p-5 text-slate-200 shadow-md flex flex-col justify-between self-start">
           <div className="space-y-4">
             <div className="pb-4 border-b border-slate-800 flex items-center justify-between">
-              <span className="text-[10px] font-extrabold text-slate-500 uppercase tracking-widest font-mono">Stage Checklist Assembly</span>
+              <span className="text-xs font-extrabold text-slate-500 uppercase tracking-widest font-mono">Stage Checklist Assembly</span>
               <Activity className="h-4 w-4 text-blue-400" />
             </div>
 
             <div className="space-y-3">
               <div>
-                <span className="text-[11px] font-bold text-blue-400 font-mono">ACTIVE DISSERTATION BLOCK DETAILED VIEW</span>
+                <span className="text-sm font-bold text-blue-400 font-mono">ACTIVE DISSERTATION BLOCK DETAILED VIEW</span>
                 <h3 className="text-base font-bold text-slate-50 mt-1 leading-snug">
                   {activePhase.title}
                 </h3>
@@ -191,7 +191,7 @@ export default function ProgressTrack() {
 
               {/* Task list with inputs */}
               <div className="space-y-2 pt-3 border-t border-slate-800/80">
-                <span className="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider font-mono block">Milestone Interactive Tasks</span>
+                <span className="text-xs font-extrabold text-slate-500 uppercase tracking-wider font-mono block">Milestone Interactive Tasks</span>
                 <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
                   {activePhase.tasks.map((task, idx) => (
                     <label 
@@ -206,7 +206,7 @@ export default function ProgressTrack() {
                         className="mt-0.5 h-4 w-4 text-blue-600 bg-slate-900 rounded border-slate-800 focus:ring-blue-500 hover:ring-1 shrink-0 cursor-pointer"
                         id={`task-checkbox-${activePhase.id}-${idx}`}
                       />
-                      <span className={`text-[12.5px] leading-snug transition-colors duration-150 ${task.completed ? 'line-through text-slate-500' : 'text-slate-300 group-hover:text-slate-100'}`}>
+                      <span className={`text-sm leading-snug transition-colors duration-150 ${task.completed ? 'line-through text-slate-500' : 'text-slate-300 group-hover:text-slate-100'}`}>
                         {task.title}
                       </span>
                     </label>

@@ -62,11 +62,11 @@ export default function LiteratureMatrix() {
       {/* Top Title Bar */}
       <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-100 gap-4">
         <div>
-          <h2 className="text-2xl font-bold font-display text-slate-900 tracking-tight flex items-center gap-2.5">
+          <h2 className="text-3xl font-bold font-display text-slate-900 tracking-tight flex items-center gap-2.5">
             <BookOpen className="h-6 w-6 text-blue-600" />
             Literature Matrix & Traceability
           </h2>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-sm text-slate-500 mt-1.5">
             Academic source analysis, identified research limitations, and custom modular solutions mapping gaps.
           </p>
         </div>
@@ -79,28 +79,28 @@ export default function LiteratureMatrix() {
       {/* Advanced Literature Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-xs">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block font-mono">Literature Size</span>
+          <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block font-mono">Literature Size</span>
           <div className="flex items-baseline gap-2 mt-1">
             <span className="text-2xl font-bold text-slate-900">{stats.total}</span>
             <span className="text-xs font-semibold text-slate-500">Indexed Cases</span>
           </div>
         </div>
         <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-xs">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block font-mono">Foundations</span>
+          <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block font-mono">Foundations</span>
           <div className="flex items-baseline gap-2 mt-1">
             <span className="text-2xl font-bold text-slate-900">{stats.primaryCount}</span>
             <span className="text-xs font-semibold text-sky-600">Core Surveys</span>
           </div>
         </div>
         <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-xs">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block font-mono">Dataset Focus</span>
+          <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block font-mono">Dataset Focus</span>
           <div className="flex items-baseline gap-2 mt-1">
             <span className="text-2xl font-bold text-slate-900">4</span>
             <span className="text-xs font-semibold text-indigo-600">MIMIC-CXR Benchmarks</span>
           </div>
         </div>
         <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-xs">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block font-mono">Agent Design</span>
+          <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block font-mono">Agent Design</span>
           <div className="flex items-baseline gap-2 mt-1">
             <span className="text-2xl font-bold text-slate-900">{stats.agenticCount}</span>
             <span className="text-xs font-semibold text-purple-600">Multi-Agent Systems</span>
@@ -126,14 +126,14 @@ export default function LiteratureMatrix() {
                   <span>{paper.venue}</span>
                 </a>
               </div>
-              <span className="shrink-0 text-[10px] font-bold px-2 py-1 rounded bg-blue-100/80 text-blue-700 font-mono border border-blue-200 uppercase tracking-wider">
+              <span className="shrink-0 text-xs font-bold px-2 py-1 rounded bg-blue-100/80 text-blue-700 font-mono border border-blue-200 uppercase tracking-wider">
                 {paper.fileLabel}
               </span>
             </div>
 
             <div className="flex flex-wrap gap-2 mt-3.5">
               {paper.tags.map(t => (
-                <span key={t} className="px-2 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 text-blue-700 border border-blue-100/50">
+                <span key={t} className="px-2 py-0.5 rounded-full text-sm font-medium bg-blue-50 text-blue-700 border border-blue-100/50">
                   {t}
                 </span>
               ))}
@@ -141,12 +141,12 @@ export default function LiteratureMatrix() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
               <div className="p-3 bg-white/80 rounded-lg border border-slate-100 space-y-1">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block font-mono">Survey Scope Description</span>
-                <p className="text-[12.5px] text-slate-600 leading-relaxed font-sans">{paper.context}</p>
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block font-mono">Survey Scope Description</span>
+                <p className="text-sm text-slate-600 leading-relaxed font-sans">{paper.context}</p>
               </div>
               <div className="p-3 bg-emerald-50/40 rounded-lg border border-emerald-100/50 space-y-1">
-                <span className="text-[10px] font-bold text-emerald-600/80 uppercase tracking-wider block font-mono">Architecture Alignment</span>
-                <p className="text-[12.5px] text-emerald-800 leading-relaxed font-sans">{paper.integration}</p>
+                <span className="text-xs font-bold text-emerald-600/80 uppercase tracking-wider block font-mono">Architecture Alignment</span>
+                <p className="text-sm text-emerald-800 leading-relaxed font-sans">{paper.integration}</p>
               </div>
             </div>
           </div>
@@ -219,7 +219,7 @@ export default function LiteratureMatrix() {
                     <div className="flex-1 space-y-1.5">
                       <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
                         <span className="font-mono text-xs font-bold text-slate-400">RESEARCH BLOCK [0{index + 1}]</span>
-                        <span className="inline-flex items-center gap-1 text-[11px] font-mono text-slate-500 align-middle shrink-0">
+                        <span className="inline-flex items-center gap-1 text-sm font-mono text-slate-500 align-middle shrink-0">
                           <FileText className="h-3 w-3" />
                           {paper.fileLabel}
                         </span>
@@ -228,7 +228,7 @@ export default function LiteratureMatrix() {
                       
                       {/* Condensed Tag pills */}
                       <div className="flex flex-wrap gap-1.5 mt-2">
-                        <span className="text-[10px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded uppercase tracking-wider font-mono">
+                        <span className="text-xs font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded uppercase tracking-wider font-mono">
                           {paper.venue}
                         </span>
                         {paper.tags.filter(t => t !== paper.fileLabel && t !== paper.venue).map(t => (
@@ -261,7 +261,7 @@ export default function LiteratureMatrix() {
                         <div className="p-4 md:p-5 bg-slate-50/40 space-y-4">
                           {/* Main contextual background */}
                           <div className="space-y-1">
-                            <h5 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest font-mono">Paper Context & Methodology</h5>
+                            <h5 className="text-sm font-bold text-slate-400 uppercase tracking-widest font-mono">Paper Context & Methodology</h5>
                             <p className="text-xs text-slate-600 leading-relaxed font-sans">{paper.context}</p>
                           </div>
 
@@ -291,7 +291,7 @@ export default function LiteratureMatrix() {
                           </div>
 
                           {/* DOI Direct link */}
-                          <div className="flex justify-start text-[11px] pt-1">
+                          <div className="flex justify-start text-sm pt-1">
                             <a 
                               href={paper.doi} 
                               target="_blank" 

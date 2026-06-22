@@ -17,7 +17,7 @@ export default function App() {
       <Sidebar currentView={currentView} onViewChange={setCurrentView} />
 
       {/* Main Content Area */}
-      <main className="flex-1 overflow-x-hidden p-4 md:p-8 lg:p-10 max-w-7xl mx-auto w-full">
+      <main className="flex-1 overflow-x-hidden p-3 md:p-5 lg:p-6 w-full min-w-0">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentView}
