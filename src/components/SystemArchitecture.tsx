@@ -4,21 +4,18 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   ArrowRight, 
   Layers, 
-  Code, 
-  Terminal, 
   Database, 
   Cpu, 
   ImageIcon, 
-  Dribbble, 
-  CornerDownRight,
   Sparkles,
-  Search,
   Eye,
   Settings,
-  HelpCircle
+  HelpCircle,
+  FileText,
+  Workflow
 } from 'lucide-react';
 
-export default function SystemArchitecture() {
+export default function SystemArchitecture({ simpleMode = false }: { simpleMode?: boolean }) {
   const [activeStepId, setActiveStepId] = useState<string>('ingest');
   
   const STEPS_DATA = [
@@ -82,16 +79,121 @@ export default function SystemArchitecture() {
     return STEPS_DATA.find(s => s.id === activeStepId) || STEPS_DATA[0];
   }, [activeStepId]);
 
+  if (simpleMode) {
+    return (
+      <div className="space-y-6">
+        {/* Simple Page Header */}
+        <div className="pb-4 border-b border-stone-200">
+          <h2 className="text-2xl font-bold font-display text-stone-900 tracking-tight flex items-center gap-2.5">
+            <Layers className="h-6 w-6 text-amber-700" />
+            How Muhammad Imran's System Works
+          </h2>
+          <p className="text-sm text-stone-600 mt-1">
+            A quick, visual guide explaining how we translate a raw chest X-ray image into a safe text diagnosis report.
+          </p>
+        </div>
+
+        {/* Beautiful Simple Flow Diagram */}
+        <div className="p-6 bg-[#FAF7F0] border border-[#E6DEC9] rounded-2xl">
+          <h3 className="text-sm font-bold font-mono text-amber-800 uppercase tracking-wider mb-5 flex items-center gap-2">
+            <Workflow className="h-4.5 w-4.5 text-amber-700" />
+            Interactive 4-Step Patient Journey Flow
+          </h3>
+
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 relative">
+            {/* Step 1 */}
+            <div className="bg-white p-5 rounded-xl border border-stone-200 text-center relative flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] font-mono font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full">STEP 1</span>
+                <ImageIcon className="h-8 w-8 mx-auto my-3 text-stone-600" />
+                <h4 className="font-bold text-stone-900 text-sm">Image Scanner</h4>
+                <p className="text-xs text-stone-600 mt-1 lines-clamp-3 leading-relaxed">
+                  We upload the raw chest X-ray. The scanner (CLIP model) translates physical lines and details into a mathematical coordinate.
+                </p>
+              </div>
+            </div>
+
+            {/* Step 2 */}
+            <div className="bg-white p-5 rounded-xl border border-stone-200 text-center relative flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] font-mono font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full">STEP 2</span>
+                <Database className="h-8 w-8 mx-auto my-3 text-stone-600" />
+                <h4 className="font-bold text-stone-900 text-sm">Library Search</h4>
+                <p className="text-xs text-stone-600 mt-1 lines-clamp-3 leading-relaxed">
+                  The system runs the coordinate through our secure database (Qdrant) to quickly find 3 past cases that look almost identical.
+                </p>
+              </div>
+            </div>
+
+            {/* Step 3 */}
+            <div className="bg-white p-5 rounded-xl border border-stone-200 text-center relative flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] font-mono font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full">STEP 3</span>
+                <FileText className="h-8 w-8 mx-auto my-3 text-stone-600" />
+                <h4 className="font-bold text-stone-900 text-sm">Draft Organizer</h4>
+                <p className="text-xs text-stone-600 mt-1 lines-clamp-3 leading-relaxed">
+                  An automatic organizer (LangChain) combines the new symptoms with details from those 3 past cases to prepare a draft outline.
+                </p>
+              </div>
+            </div>
+
+            {/* Step 4 */}
+            <div className="bg-white p-5 rounded-xl border border-stone-200 text-center relative flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] font-mono font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full">STEP 4</span>
+                <Cpu className="h-8 w-8 mx-auto my-3 text-stone-600" />
+                <h4 className="font-bold text-stone-900 text-sm">Medical Writer</h4>
+                <p className="text-xs text-stone-600 mt-1 lines-clamp-3 leading-relaxed">
+                  Our hospital-ready medical AI model (BioGPT) reads the organizer's draft and writes a final, factually correct diagnosis report.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Component Table explained simply */}
+        <div className="bg-white rounded-xl border border-stone-200 overflow-hidden shadow-xs">
+          <div className="p-4 bg-stone-50 border-b border-stone-200">
+            <h4 className="font-bold text-stone-900 text-xs uppercase tracking-wider font-mono">The Professional Parts Utilized</h4>
+          </div>
+          <div className="divide-y divide-stone-150">
+            <div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-2">
+              <strong className="text-stone-900 text-sm">System Link: LangChain</strong>
+              <span className="text-xs font-mono py-0.5 px-2 bg-stone-100 text-stone-700 rounded-md max-w-max">Orchestrator</span>
+              <p className="text-xs text-stone-600">This is the "glue" that hooks the database and model together seamlessly so they can talk easily.</p>
+            </div>
+            <div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-2">
+              <strong className="text-stone-900 text-sm">Vector Matcher: CLIP model</strong>
+              <span className="text-xs font-mono py-0.5 px-2 bg-stone-100 text-stone-700 rounded-md max-w-max">Image Translation</span>
+              <p className="text-xs text-stone-600">Acts like human eyes, translating complex lung shapes into coordinates so searching is super fast.</p>
+            </div>
+            <div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-2">
+              <strong className="text-stone-900 text-sm">Storage: Qdrant</strong>
+              <span className="text-xs font-mono py-0.5 px-2 bg-stone-100 text-stone-700 rounded-md max-w-max">Secure Database</span>
+              <p className="text-xs text-stone-600">Uses mathematical formulas to retrieve chest medical reports within fraction-of-a-second intervals.</p>
+            </div>
+            <div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-2">
+              <strong className="text-stone-900 text-sm">Verification: RAGAS</strong>
+              <span className="text-xs font-mono py-0.5 px-2 bg-stone-100 text-stone-700 rounded-md max-w-max font-bold">Accuracy Checker</span>
+              <p className="text-xs text-stone-600">A strict built-in checker scoring how factually correct the system's generated reports are.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // STANDARD EXPERT TECHNICAL LAYOUT
   return (
     <div className="space-y-6">
       {/* Header Bar */}
       <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-100 gap-4">
         <div>
-          <h2 className="text-3xl font-bold font-display text-slate-900 tracking-tight flex items-center gap-2.5">
+          <h2 className="text-2xl font-bold font-display text-slate-900 tracking-tight flex items-center gap-2.5">
             <Layers className="h-6 w-6 text-blue-600" />
             System Framework Architecture
           </h2>
-          <p className="text-sm text-slate-500 mt-1.5">
+          <p className="text-xs text-slate-500 mt-1">
             Component specifications, system dependencies, and interactive dataflow steps mapping the processing engine boundaries.
           </p>
         </div>
@@ -104,25 +206,25 @@ export default function SystemArchitecture() {
       {/* Quick Infrastructure Table / Matrix Grid */}
       <div className="bg-white rounded-xl border border-slate-100 overflow-hidden shadow-xs">
         <div className="p-4 bg-slate-50/50 border-b border-slate-100 flex items-center justify-between">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-widest font-mono">Core Infrastructure Stack</span>
-          <span className="text-xs text-slate-400 font-mono">System requirements validated</span>
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono">Core Infrastructure Stack</span>
+          <span className="text-[10px] text-slate-400 font-mono">System requirements validated</span>
         </div>
         
         <div className="divide-y divide-slate-100">
           {ARCH_LAYERS.map((layer) => (
             <div key={layer.id} className="p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 hover:bg-slate-50/20 transition-all">
               <div className="md:w-1/4 shrink-0">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono block">Layer Area</span>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider font-mono block">Layer Area</span>
                 <span className="text-xs font-semibold text-slate-650 mt-0.5 block">{layer.layer}</span>
               </div>
               <div className="md:w-1/4 shrink-0">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono block">Selected Stack</span>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider font-mono block">Selected Stack</span>
                 <span className="text-xs font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded border border-slate-200 mt-0.5 inline-block font-mono">
                   {layer.value}
                 </span>
               </div>
               <div className="flex-1 md:pl-4">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono block">Trace Implementation Justification</span>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider font-mono block">Trace Implementation Justification</span>
                 <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed mt-0.5">
                   {layer.why}
                 </p>
@@ -139,108 +241,72 @@ export default function SystemArchitecture() {
             <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest font-mono">Interactive Vector Ingestion Pipeline</h3>
             <p className="text-xs text-slate-400 mt-1">Click any step in the data pipeline to inspect its processing format, input/output data rules, and back-end source code.</p>
           </div>
-          <span className="text-xs font-mono text-slate-400 flex items-center gap-1">
-            <Code className="h-3.5 w-3.5" />
-            Python PyTorch Core
-          </span>
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider font-mono">Select Step Below</span>
         </div>
 
-        {/* Visual blocks layout */}
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-3 pt-2">
+        {/* Workflow horizontal blocks */}
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
           {STEPS_DATA.map((step, idx) => {
             const isActive = activeStepId === step.id;
             return (
               <button
                 key={step.id}
-                onClick={() => { setActiveStepId(step.id); }}
-                id={`pipe-flow-step-${step.id}`}
+                onClick={() => setActiveStepId(step.id)}
                 className={`
-                  relative flex flex-col p-3 rounded-xl border text-left transition-all duration-200 cursor-pointer select-none group
+                  p-3 rounded-xl border text-left flex flex-col justify-between h-24 transition-all cursor-pointer select-none
                   ${isActive 
-                    ? 'bg-blue-600 border-blue-500 text-white shadow-md shadow-blue-500/10 scale-103' 
-                    : 'bg-slate-50/60 hover:bg-slate-100/60 border-slate-150 text-slate-850'}
+                    ? 'bg-blue-600/10 border-blue-500 shadow-sm' 
+                    : 'bg-slate-50/50 border-slate-200 hover:border-slate-350 hover:bg-slate-100/30'}
                 `}
+                id={`step-tab-${step.id}`}
               >
-                {/* Visual Step numbering */}
-                <div className="flex justify-between items-center mb-2">
-                  <span className={`text-xs font-bold font-mono ${isActive ? 'text-blue-200' : 'text-slate-400'}`}>
-                    STEP 0{idx + 1}
-                  </span>
-                  <div className={`h-2 w-2 rounded-full ${isActive ? 'bg-white animate-pulse' : 'bg-slate-200'}`} />
+                <div className="flex justify-between items-start">
+                  <span className="text-[9px] font-bold font-mono text-slate-400">0{idx + 1}</span>
+                  {isActive && <Sparkles className="h-3.5 w-3.5 text-blue-500 animate-pulse" />}
                 </div>
-
-                <span className="text-xs font-bold leading-tight truncate">{step.title}</span>
-                <span className={`text-xs font-mono mt-1 ${isActive ? 'text-blue-105' : 'text-slate-500'}`}>
-                  {step.metric}
-                </span>
-
-                {/* Micro-arrow */}
-                {idx < STEPS_DATA.length - 1 && (
-                  <div className="hidden md:block absolute -right-2 top-1/2 -translate-y-1/2 z-10 text-slate-300">
-                    <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
-                  </div>
-                )}
+                <h4 className={`text-xs font-bold leading-tight ${isActive ? 'text-blue-700' : 'text-slate-800'}`}>
+                  {step.title}
+                </h4>
               </button>
             );
           })}
         </div>
 
-        {/* Selected step specifications */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 pt-3">
-          {/* Metadata information block */}
-          <div className="lg:col-span-4 bg-slate-50 border border-slate-100 rounded-xl p-4 flex flex-col justify-between">
-            <div className="space-y-3.5">
-              <div className="flex items-center gap-2">
-                <span className="p-1 px-2 font-bold font-mono text-xs bg-sky-100 text-sky-700 border border-sky-150 rounded sm:inline">
-                  STEP ID: {currentStep.id.toUpperCase()}
-                </span>
-                <span className="text-xs font-bold text-slate-805">{currentStep.title}</span>
-              </div>
-
-              <div className="space-y-2">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono block">Data Formats</span>
-                <div className="grid grid-cols-2 gap-2 text-xs">
-                  <div className="p-2 bg-white rounded border border-slate-150/60">
-                    <span className="text-xs text-slate-400 block font-mono">INPUT</span>
-                    <span className="font-semibold text-slate-700 truncate block mt-0.5" title={currentStep.input}>{currentStep.input}</span>
-                  </div>
-                  <div className="p-2 bg-white rounded border border-slate-150/60">
-                    <span className="text-xs text-slate-400 block font-mono">OUTPUT</span>
-                    <span className="font-semibold text-slate-700 truncate block mt-0.5" title={currentStep.output}>{currentStep.output}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-1">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono block">Functional Method</span>
-                <p className="text-xs text-slate-600 leading-relaxed font-sans">{currentStep.desc}</p>
-              </div>
+        {/* Flow representation details cards */}
+        <div className="bg-slate-50/50 border border-slate-200/80 rounded-xl p-5 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Properties description block */}
+          <div className="lg:col-span-5 space-y-4">
+            <div>
+              <span className="text-[9px] font-bold text-blue-600 font-mono uppercase tracking-widest">Active Component Analysis</span>
+              <h4 className="text-base font-bold text-slate-900 mt-0.5">{currentStep.title}</h4>
+              <p className="text-xs text-slate-600 leading-relaxed mt-2">{currentStep.desc}</p>
             </div>
 
-            <div className="text-xs font-mono text-slate-400 mt-4 border-t border-slate-200/60 pt-3">
-              <span>Pipeline Integration verified</span>
+            <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-100">
+              <div className="p-2.5 bg-white rounded-lg border border-slate-150/80">
+                <span className="text-[9px] font-extrabold text-slate-400 font-mono block">Data Inbound</span>
+                <span className="text-xs text-slate-800 font-bold block mt-0.5">{currentStep.input}</span>
+              </div>
+              <div className="p-2.5 bg-white rounded-lg border border-slate-150/80">
+                <span className="text-[9px] font-extrabold text-slate-400 font-mono block">Result Outbound</span>
+                <span className="text-xs text-blue-700 font-bold block mt-0.5">{currentStep.output}</span>
+              </div>
             </div>
           </div>
 
-          {/* Code display block */}
-          <div className="lg:col-span-8 flex flex-col bg-slate-900 rounded-xl overflow-hidden border border-slate-950 shadow-inner">
-            <div className="p-3 bg-slate-950 flex items-center justify-between">
-              <div className="flex items-center gap-1.5">
-                <div className="flex gap-1">
-                  <div className="h-2.5 w-2.5 rounded-full bg-rose-500" />
-                  <div className="h-2.5 w-2.5 rounded-full bg-amber-500" />
-                  <div className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
-                </div>
-                <span className="text-xs text-slate-430 font-mono ml-2">Dissertation Core Module: pipeline.py</span>
+          {/* Code execution terminal mockup block */}
+          <div className="lg:col-span-7 bg-slate-950 rounded-xl border border-slate-900 overflow-hidden self-start">
+            <div className="px-4 py-2 bg-slate-900 flex items-center justify-between border-b border-slate-950">
+              <div className="flex gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-rose-500" />
+                <span className="h-2.5 w-2.5 rounded-full bg-amber-500" />
+                <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
               </div>
-              <span className="text-xs font-mono text-slate-500 uppercase font-semibold">PyTorch / Python 3.10</span>
+              <span className="font-mono text-[9px] text-slate-500">{currentStep.id}.py</span>
             </div>
-
-            <div className="p-4 flex-1 overflow-x-auto">
-              <pre className="text-sm font-mono text-blue-150/90 leading-relaxed whitespace-pre">
-                {currentStep.code}
-              </pre>
-            </div>
+            <pre className="p-4 text-[10px] text-slate-300 font-mono overflow-x-auto select-all leading-relaxed bg-[#0b0c10]">
+              <code>{currentStep.code}</code>
+            </pre>
           </div>
         </div>
       </div>

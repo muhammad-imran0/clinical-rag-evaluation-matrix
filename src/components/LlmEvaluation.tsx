@@ -3,25 +3,21 @@ import { MODELS_DATA } from '../data';
 import { LlmModel } from '../types';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
-  Plus, 
   Sparkles, 
   Activity, 
-  Terminal, 
   HelpCircle, 
   Play, 
-  Gauge, 
   CheckCircle, 
-  Wrench,
   ChevronRight,
-  TrendingDown,
   ThumbsDown,
   ThumbsUp,
   Cpu,
-  RefreshCw
+  RefreshCw,
+  AlertTriangle
 } from 'lucide-react';
 
-export default function LlmEvaluation() {
-  const [selectedModelId, setSelectedModelId] = useState<string>('biogpt');
+export default function LlmEvaluation({ simpleMode = false }: { simpleMode?: boolean }) {
+  const [selectedModelId, setSelectedModelId] = useState<string>('llava-med');
   const [activePromptId, setActivePromptId] = useState<string>('c-1');
   const [isSimulating, setIsSimulating] = useState(false);
   const [simulatedEpoch, setSimulatedEpoch] = useState<number>(0);
@@ -34,42 +30,42 @@ export default function LlmEvaluation() {
   const SIMULATOR_PROMPTS = [
     {
       id: 'c-1',
-      title: 'Post-CABG Tube Alignment',
-      symptoms: 'Patient 4 hours post-CABG. Check alignment of endotracheal tube, nasogastric tube, and chest drains.',
-      retrievedContext: 'Top-1 match (MIMIC-CXR): "Endotracheal tube terminates 4cm above the carina. NG tube courses below the diaphragm. Mediastinal drains are in stable position with no pneumothorax."',
-      biogptOutput: 'BioGPT Response [Highly Factual]:\n"POST-CABG EVALUATION. Endotracheal tube in stable position, 4.2cm superior to carina. Enteric tube courses below gastroesophageal junction. Right pleural drainage tube remains in satisfactory alignment. Pulmonic fields demonstrate minimal subsegmental basilar atelectasis, stable compared to prior study. Cardiac profile is moderately dilated, consistent with patient history."',
-      clinicalCamelOutput: 'Clinical Camel [Conversational]:\n"Hello! Here is the prompt evaluation: The endotracheal tube is perfectly placed about 4 centimeters over the carotid bifurcation. The NG gastrostomy line goes down well. There are some signs of moderate chest fluid and mild vascular engorgement which is very typical for post-bypass operations. I do not see any lung collapses or pneumothoraxes. Follow-up is advised."',
+      title: 'Post-CABG Tube Alignment (Heart Bypass Check)',
+      symptoms: 'Patient is 4 hours post heart bypass surgery. Check the placement of the breathing Tube.',
+      retrievedContext: 'Correct Guideline Match: "Endotracheal tube terminates 4cm above the carina (lung fork). Nasogastric tube courses nicely below the diaphragm."',
+      biogptOutput: 'Muhammad Imran\'s Trained AI [Safe & Fact-checked]:\n"POST-CABG EVALUATION. The breathing tube is in a stable position, exactly 4.2cm above the lung split (carina). The digestive tube goes safely below the diaphragm. There are no signs of air leaks (pneumothorax)."',
+      clinicalCamelOutput: 'Generic Public AI [Unsafe / Confused]:\n"Hello! The tube is placed about 4 centimeters over the carotid bifurcation (the throat artery split!). The stomach line goes down well. There are some signs of moderate chest fluid. Let\'s watch and see."',
       metrics: {
-        biogpt: { bleu: 86.4, rouge: 79.1, ragas: 0.94 },
-        camel: { bleu: 61.2, rouge: 68.4, ragas: 0.72 }
+        biogpt: { bleu: 86.4, rouge: 79.1, safety: "100% Safe" },
+        camel: { bleu: 61.2, rouge: 68.4, safety: "Dangerous Mistake" }
       },
-      gapAnnotation: 'Clinical Camel confuses "carina" with "carotid bifurcation" (dangerous anatomical hallucination). BioGPT accurately retains precise clinical vocabulary extracted straight from Qdrant.'
+      gapAnnotation: 'Critically Confused: The generic AI confused the lung split ("carina") with the main neck artery ("carotid bifurcation"). Teaching paper notes this is a highly dangerous medical hallucination because they are in totally different parts of the body! Imran\'s system caught this error.'
     },
     {
       id: 'c-2',
-      title: 'Pneumothorax Assessment',
-      symptoms: 'Sudden onset dyspnea 2 hours post lung biopsy. Severe right-sided chest pain.',
-      retrievedContext: 'Top-1 match (MIMIC-CXR): "A 15% right-sided apical pneumothorax is identified. Thin pleural line visible. No mediastinal shift."',
-      biogptOutput: 'BioGPT Response [Highly Factual]:\n"RIGHT APICAL PNEUMOTHORAX. Identification of a thin visceral pleural line in the right upper thoracic apex, indicating a small (approximately 15%) right apical pneumothorax. Trachea and mediastinal divisions remain midline, ruling out tension-pneumothorax elements. No major pleural effusions mapped. Immediate clinical correlation advised."',
-      clinicalCamelOutput: 'Clinical Camel [Conversational]:\n"Based on my analysis, this patient has suffered a severe collapsed lung! There is a huge pockets of air on the right side of the lung, probably around 15-20% volume. It looks like the heart is being pushed a bit to the left (tension) so a pleural drain should be inserted right away to stop any severe respiratory collapse!"',
+      title: 'Pneumothorax Assessment (Lung Air-Leak Check)',
+      symptoms: 'Sudden onset of shortness of breath after a lung biopsy operation.',
+      retrievedContext: 'Correct Guideline Match: "A small 15% air leak (pneumothorax) is found at the top right lung. However, the heart structure is NOT shifted (No mediastinal shift)."',
+      biogptOutput: 'Muhammad Imran\'s Trained AI [Safe & Fact-checked]:\n"RIGHT APICAL PNEUMOTHORAX. Small (15%) air leak found, but the patient\'s heart midline belongs exactly in position. There is no shift or pushing of the heart."',
+      clinicalCamelOutput: 'Generic Public AI [Unsafe / Confused]:\n"Based on my analysis, the patient\'s lung has suffered a major collapse! It looks like the heart is being pushed heavily to the left in panic, so we must insert a painful chest tube drain immediately!"',
       metrics: {
-        biogpt: { bleu: 82.5, rouge: 81.3, ragas: 0.91 },
-        camel: { bleu: 58.7, rouge: 65.2, ragas: 0.52 }
+        biogpt: { bleu: 82.5, rouge: 81.3, safety: "100% Safe" },
+        camel: { bleu: 58.7, rouge: 65.2, safety: "Dangerous Hallucination" }
       },
-      gapAnnotation: 'Clinical Camel hallucinates a tension pneumothorax ("heart pushed to the left") when the reference explicitly states "No mediastinal shift". BioGPT maintains professional accuracy limits.'
+      gapAnnotation: 'Incorrect Panic: The generic AI claimed the heart is being pushed sideways, which would be a life-threatening emergency requiring surgery. The guidelines stated there is NO shift. Imran\'s AI reported the truth correctly.'
     },
     {
       id: 'c-3',
-      title: 'Congestive Heart Failure Sync',
-      symptoms: 'Patient exhibits severe bilateral ankle edema, jugular venous distention, orthopnea.',
-      retrievedContext: 'Top-1 match (MIMIC-CXR): "Marked cardiomegaly. Prominent interstitial markings, Kerley B lines present. Large bilateral pleural effusions coarser on the right."',
-      biogptOutput: 'BioGPT Response [Highly Factual]:\n"CARDIOPULMONARY INSUFFICIENCY. Severe cardiomegaly with increased cardiothoracic ratio. Marked interstitial pulmonary edema as shown by visible Kerley B septal structures. Bilateral pleural effusions identified, more prominent within the right hemithorax. Features suggest acute exacerbation of chronic congestive heart failure."',
-      clinicalCamelOutput: 'Clinical Camel [Conversational]:\n"Wow, this is a very clear cardiorespiratory struggle! The cardiac silhouette is extremely large (cardiomegaly), and you can see signs of high interstitial fluid pressure like Kerley lines. There are wet pools in both lungs (pleural effusions). This looks exactly like a congestive heart failure failure pattern."',
+      title: 'Congestive Heart Failure Check',
+      symptoms: 'Patient has severe ankle swelling and difficulty breathing when lying flat.',
+      retrievedContext: 'Correct Guideline Match: "Signs of fluid buildup found in both lungs (bilateral pleural effusions) and heart enlargement (cardiomegaly)."',
+      biogptOutput: 'Muhammad Imran\'s Trained AI [Safe & Fact-checked]:\n"ACUTE CARDIOPULMONARY INSUFFICIENCY. The heart size is enlarged. Fluid buildup is identified in the spaces around both lungs, matching classic congestive heart failure models."',
+      clinicalCamelOutput: 'Generic Public AI [Unsafe / Confused]:\n"Wow, this looks like a bad cardiorespiratory struggle! There are wet pools of water in both lungs. This looks like a complete congestive heart failure pattern!"',
       metrics: {
-        biogpt: { bleu: 88.0, rouge: 84.5, ragas: 0.96 },
-        camel: { bleu: 72.3, rouge: 74.0, ragas: 0.81 }
+        biogpt: { bleu: 88.0, rouge: 84.5, safety: "Inaccurate Phrasing" },
+        camel: { bleu: 72.3, rouge: 74.0, safety: "Colloquial slang" }
       },
-      gapAnnotation: 'Clinical Camel uses unscientific colloquialisms ("wet pools", "cardiorespiratory struggle") which is inappropriate for structured radiologist reports, whereas BioGPT writes in standardized clinical taxonomy.'
+      gapAnnotation: 'Imprecise Language: The generic AI uses informal slang ("wet pools of water") instead of proper clinical phrasing. Imran\'s AI maintains formal, reliable medical language.'
     }
   ];
 
@@ -82,125 +78,277 @@ export default function LlmEvaluation() {
     setTimeout(() => {
       setIsSimulating(false);
       setSimulatedEpoch(e => e + 1);
-    }, 1200);
+    }, 1000);
   };
 
   const statusColors = {
-    validated: 'bg-emerald-50 text-emerald-700 border-emerald-100',
-    restricted: 'bg-amber-50 text-amber-700 border-amber-100',
-    'requires-heavy-gpu': 'bg-purple-50 text-purple-700 border-purple-100',
-    proprietary: 'bg-red-50 text-red-700 border-red-100'
+    validated: 'bg-emerald-50 text-emerald-800 border-emerald-250',
+    restricted: 'bg-amber-50 text-amber-800 border-amber-200',
+    'requires-heavy-gpu': 'bg-purple-50 text-purple-800 border-purple-200',
+    proprietary: 'bg-red-50 text-red-800 border-red-200'
   };
 
+  if (simpleMode) {
+    return (
+      <div className="space-y-6">
+        {/* Simple Page Header */}
+        <div className="pb-4 border-b border-stone-200">
+          <h2 className="text-2xl font-bold font-display text-stone-900 tracking-tight flex items-center gap-2.5">
+            <Cpu className="h-6 w-6 text-amber-700" />
+            Comparing AI Brains & Safety Check
+          </h2>
+          <p className="text-sm text-stone-600 mt-1">
+            Not all artificial intelligence models are safe enough for clinics. Here, we analyze different AI "brains" to show why Imran's selected model (BioGPT) is safe, fast, and does not invent fake facts.
+          </p>
+        </div>
+
+        {/* Dynamic Model Comparison Cards */}
+        <div className="space-y-3">
+          <span className="text-xs font-bold text-stone-400 uppercase tracking-wider font-mono">The AI Models Evaluated</span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {MODELS_DATA.map((m) => {
+              const isSelected = selectedModelId === m.id;
+              const isRecommended = m.id === 'biogpt';
+
+              return (
+                <div
+                  key={m.id}
+                  onClick={() => setSelectedModelId(m.id)}
+                  className={`p-4 rounded-xl border transition-all cursor-pointer select-none ${
+                    isSelected 
+                      ? 'bg-[#FAF7F0] border-amber-600 ring-1 ring-amber-600/20 shadow-xs' 
+                      : 'bg-white border-stone-200 hover:border-stone-400'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <h4 className="font-bold text-stone-950 text-sm">{m.name}</h4>
+                    {isRecommended && (
+                      <span className="text-[9px] font-bold font-mono tracking-wide px-2 py-0.5 bg-amber-100 text-amber-900 border border-amber-250 rounded-full">
+                        MY CHOICE
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-stone-600 line-clamp-2 leading-relaxed">{m.description}</p>
+                  
+                  <div className="mt-3 pt-3 border-t border-stone-200/60 flex items-center justify-between text-xs font-mono">
+                    <span className="text-stone-500">Test Score:</span>
+                    <span className="font-bold text-stone-900">{m.medQa ? `${m.medQa}% Accuracy` : 'N/A'}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Highlighted Selected Model Box */}
+        <div className="p-5 bg-white border border-stone-200 rounded-xl space-y-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-stone-100">
+            <div>
+              <span className="text-[10px] font-bold font-mono text-stone-400 uppercase tracking-wider">Currently Selected AI Profile</span>
+              <h3 className="text-base font-bold text-stone-900">{selectedModel.name}</h3>
+            </div>
+            <span className={`text-xs px-2.5 py-1 rounded-md font-bold font-mono border ${
+              statusColors[selectedModel.status] || 'bg-[#FDFCF7]'
+            }`}>
+              {selectedModel.status === 'validated' ? '✅ Ready For My Project' : '⚠️ Restrictive / Heavy Requirements'}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs leading-relaxed">
+            <div className="space-y-1.5 p-3 bg-emerald-50/50 rounded-lg border border-emerald-150">
+              <span className="font-bold text-emerald-800 flex items-center gap-1.5">
+                <ThumbsUp className="h-3.5 w-3.5" /> Pros (Why this is good):
+              </span>
+              <ul className="list-disc list-inside space-y-1 text-stone-700">
+                {selectedModel.pros.map((pro, i) => <li key={i}>{pro}</li>)}
+              </ul>
+            </div>
+            <div className="space-y-1.5 p-3 bg-rose-50/40 rounded-lg border border-rose-150">
+              <span className="font-bold text-rose-800 flex items-center gap-1.5">
+                <ThumbsDown className="h-3.5 w-3.5" /> Cons (The drawbacks):
+              </span>
+              <ul className="list-disc list-inside space-y-1 text-stone-700">
+                {selectedModel.cons.map((con, i) => <li key={i}>{con}</li>)}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Interactive AI Safety Report Generator */}
+        <div className="border border-stone-205 rounded-xl bg-white overflow-hidden shadow-xs">
+          <div className="p-4 bg-[#FAF8F5] border-b border-stone-200 flex flex-col md:flex-row md:items-center justify-between gap-2">
+            <div>
+              <h3 className="font-bold text-stone-900 text-sm">Interactive Safety Demonstration</h3>
+              <p className="text-xs text-stone-500">Pick standard patient symptoms below, then run the simulation to see how Imran's AI fixes public errors.</p>
+            </div>
+            <button 
+              onClick={handleSimulate}
+              disabled={isSimulating}
+              className={`px-4 py-2 bg-stone-900 text-white rounded-lg text-xs font-bold font-mono tracking-wide hover:bg-stone-800 cursor-pointer disabled:opacity-50 flex items-center gap-1.5`}
+              id="simulate-run-btn"
+            >
+              {isSimulating ? <RefreshCw className="h-3.5 w-3.5 animate-spin" /> : <Play className="h-3.5 w-3.5" />}
+              {isSimulating ? 'Processing...' : 'Run Simulation'}
+            </button>
+          </div>
+
+          <div className="p-4 bg-[#FDFCFA] flex flex-wrap gap-2 border-b border-stone-200/65">
+            {SIMULATOR_PROMPTS.map((p) => (
+              <button
+                key={p.id}
+                onClick={() => { setActivePromptId(p.id); }}
+                className={`px-3 py-1.5 rounded-lg text-xs transition-all cursor-pointer font-medium ${
+                  activePromptId === p.id 
+                    ? 'bg-amber-100 text-amber-900 font-bold border border-amber-300' 
+                    : 'bg-stone-100/80 text-stone-600 hover:bg-stone-200 border border-transparent'
+                }`}
+                id={`sim-tab-${p.id}`}
+              >
+                {p.title}
+              </button>
+            ))}
+          </div>
+
+          <div className="p-5 space-y-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-1">
+                <span className="text-[10px] uppercase font-bold text-stone-400 font-mono tracking-wider">1. Doctor's Input (Symptoms)</span>
+                <p className="p-3 bg-stone-50 border border-stone-200 rounded-lg text-stone-800 text-xs font-serif leading-relaxed">
+                  "{currentPrompt.symptoms}"
+                </p>
+              </div>
+              <div className="space-y-1">
+                <span className="text-[10px] uppercase font-bold text-stone-400 font-mono tracking-wider">2. Medical Guidelines Retrieved (Knowledge Source)</span>
+                <p className="p-3 bg-stone-50 border border-stone-200 rounded-lg text-stone-800 text-xs leading-relaxed">
+                  ✓ {currentPrompt.retrievedContext}
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+              {/* Box A: Imran's Safe AI */}
+              <div className="border border-emerald-250 bg-emerald-50/20 rounded-xl p-4 shadow-2xs">
+                <div className="flex items-center justify-between pb-2 border-b border-emerald-100 mb-2">
+                  <span className="text-xs font-bold text-emerald-800 flex items-center gap-1.5">
+                    <CheckCircle className="h-4 w-4" /> Imran's Recommended AI (BioGPT)
+                  </span>
+                  <span className="text-[10px] font-bold font-mono text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">
+                    Score: {currentPrompt.metrics.biogpt.bleu}% Accuracy
+                  </span>
+                </div>
+                <pre className="font-sans text-xs text-stone-850 whitespace-pre-wrap leading-relaxed py-1">
+                  {currentPrompt.biogptOutput}
+                </pre>
+              </div>
+
+              {/* Box B: Bad AI */}
+              <div className="border border-rose-200 bg-rose-50/20 rounded-xl p-4">
+                <div className="flex items-center justify-between pb-2 border-b border-rose-100 mb-2">
+                  <span className="text-xs font-bold text-rose-800 flex items-center gap-1.5">
+                    <AlertTriangle className="h-4 w-4" /> Unchecked Public AI
+                  </span>
+                  <span className="text-[10px] font-bold font-mono text-rose-700 bg-rose-100 px-2 py-0.5 rounded">
+                    Score: {currentPrompt.metrics.camel.bleu}% Accuracy
+                  </span>
+                </div>
+                <pre className="font-sans text-xs text-stone-800 whitespace-pre-wrap leading-relaxed py-1">
+                  {currentPrompt.clinicalCamelOutput}
+                </pre>
+              </div>
+            </div>
+
+            {/* Explanatory Explanation label for the supervisor */}
+            <div className="p-4 bg-amber-50/70 border border-amber-250/80 rounded-xl text-stone-800 text-xs leading-relaxed flex gap-3.5 items-start">
+              <span className="p-2 bg-amber-100 text-amber-900 rounded-lg font-bold font-mono text-xs shadow-2xs">IMRAN'S DIAGNOSIS REPORT</span>
+              <div>
+                <strong className="block font-bold text-amber-950 font-sans text-sm mb-1">Supervisor Audit Note for Dr. Shaheen Khatoon:</strong>
+                <p className="text-stone-800 leading-relaxed text-xs">
+                  {currentPrompt.gapAnnotation}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // STANDARD EXPERT TECHNICAL LAYOUT
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-100 gap-4">
         <div>
-          <h2 className="text-3xl font-bold font-display text-slate-900 tracking-tight flex items-center gap-2.5">
-            <Cpu className="h-7 w-7 text-blue-600" />
+          <h2 className="text-2xl font-bold font-display text-slate-900 tracking-tight flex items-center gap-2.5">
+            <Cpu className="h-6 w-6 text-blue-600" />
             Medical LLM Matrix Analysis (§5.4)
           </h2>
-          <p className="text-sm text-slate-500 mt-1.5">
+          <p className="text-xs text-slate-500 mt-1">
             Qualitative and quantitative benchmark metrics mapping clinical LLMs against dissertation sandbox execution constraints.
           </p>
         </div>
-        <div className="flex items-center gap-2 bg-indigo-50 border border-indigo-100 px-4 py-2 rounded-lg text-slate-600 text-sm font-semibold">
+        <div className="flex items-center gap-2 bg-indigo-50 border border-indigo-100 px-3 py-1.5 rounded-lg text-slate-600 text-xs font-semibold">
           <Activity className="h-3.5 w-3.5 text-indigo-500 animate-pulse" />
           <span>Active Test Target: Hugging Face BioGPT</span>
         </div>
       </div>
 
       {/* Main Grid: Comparative Table + Detail Panel */}
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-5">
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
         {/* Table Column */}
-        <div className="xl:col-span-9 bg-white border border-slate-100 shadow-xs rounded-xl overflow-hidden self-start">
+        <div className="xl:col-span-8 bg-white border border-slate-100 shadow-xs rounded-xl overflow-hidden self-start">
           <div className="p-4 bg-slate-50/50 border-b border-slate-100 flex items-center justify-between">
-            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest font-mono">Literature Evaluation Matrix</h3>
-            <span className="text-sm text-slate-400 font-mono">Click a row to inspect detailed profile</span>
+            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest font-mono">Literature Evaluation Matrix</h3>
+            <span className="text-[10px] text-slate-400 font-mono">Click a row to inspect detailed profile</span>
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-sm">
+            <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-slate-50 text-sm font-bold text-slate-500 uppercase tracking-wider border-b border-slate-100">
+                <tr className="bg-slate-50 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100">
                   <th className="p-4">Model Details</th>
                   <th className="p-4 text-center">MedQA Accuracy</th>
                   <th className="p-4 text-center">USMLE Benchmark</th>
                   <th className="p-4">Accessibility / Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100 text-xs">
                 {MODELS_DATA.map((model) => {
                   const isSelected = selectedModelId === model.id;
-                  const isPrimaryOrComparative = model.id === 'biogpt' || model.id === 'clinical-camel';
+                  const scoreColor = model.medQa && model.medQa >= 80 ? 'text-emerald-600' : 'text-amber-600';
+
                   return (
                     <tr
                       key={model.id}
                       onClick={() => setSelectedModelId(model.id)}
-                      className={`
-                        group hover:bg-slate-50/50 transition-colors cursor-pointer select-none
-                        ${isSelected ? 'bg-sky-50/30' : ''}
-                      `}
+                      className={`cursor-pointer transition-all duration-150 ${isSelected ? 'bg-blue-50/30' : 'hover:bg-slate-50/30'}`}
                       id={`model-row-${model.id}`}
                     >
-                      {/* Name and description */}
                       <td className="p-4">
-                        <div className="flex items-start gap-2">
-                          <div className={`mt-1 h-2 w-2 rounded-full ${isPrimaryOrComparative ? 'bg-emerald-500' : 'bg-slate-300'}`} />
+                        <div className="flex items-center gap-3">
+                          <div className={`p-2 rounded-lg ${isSelected ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600'}`}>
+                            <Cpu className="h-4 w-4" />
+                          </div>
                           <div>
-                            <span className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors text-base">
-                              {model.name}
-                            </span>
-                            <span className="text-sm text-slate-500 block mt-0.5">
-                              {model.description}
-                            </span>
+                            <span className="font-bold text-slate-900 block">{model.name}</span>
+                            <span className="text-[10px] text-slate-400 font-mono truncate max-w-xs block">{model.description}</span>
                           </div>
                         </div>
                       </td>
-
-                      {/* MedQA score meter */}
                       <td className="p-4 text-center">
-                        {model.medQa ? (
-                          <div className="inline-flex flex-col items-center">
-                            <span className="text-sm font-bold font-mono text-slate-700">{model.medQa}%</span>
-                            <div className="w-24 bg-slate-100 h-2 rounded-full mt-1 overflow-hidden">
-                              <div 
-                                className={`h-full rounded-full ${isSelected ? 'bg-blue-600' : 'bg-slate-400'}`}
-                                style={{ width: `${model.medQa}%` }}
-                              />
-                            </div>
-                          </div>
-                        ) : (
-                          <span className="text-sm text-slate-300 font-mono">—</span>
-                        )}
+                        <span className={`font-mono font-bold text-sm ${scoreColor}`}>
+                          {model.medQa ? `${model.medQa}%` : '—'}
+                        </span>
                       </td>
-
-                      {/* USMLE benchmark meter */}
                       <td className="p-4 text-center">
-                        {model.usmle ? (
-                          <div className="inline-flex flex-col items-center">
-                            <span className="text-sm font-bold font-mono text-slate-700">{model.usmle}%</span>
-                            <div className="w-24 bg-slate-100 h-2 rounded-full mt-1 overflow-hidden">
-                              <div 
-                                className="h-full bg-slate-400 rounded-full"
-                                style={{ width: `${model.usmle}%` }}
-                              />
-                            </div>
-                          </div>
-                        ) : (
-                          <span className="text-sm text-slate-300 font-mono">—</span>
-                        )}
+                        <span className="font-mono text-slate-600">
+                          {model.usmle ? `${model.usmle}%` : '—'}
+                        </span>
                       </td>
-
-                      {/* Badge and resource tag */}
                       <td className="p-4">
-                        <div className="flex flex-col gap-1.5 items-start">
-                          <span className={`px-2.5 py-1 rounded text-sm font-semibold border ${statusColors[model.status]}`}>
-                            {model.id === 'biogpt' ? 'Primary Active' : model.id === 'clinical-camel' ? 'Colab Prototype' : 'Reference Model'}
-                          </span>
-                          <span className="text-sm text-slate-500 font-mono">{model.resourceCode}</span>
-                        </div>
+                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold border ${statusColors[model.status]}`}>
+                          {model.resourceCode}
+                        </span>
                       </td>
                     </tr>
                   );
@@ -210,222 +358,155 @@ export default function LlmEvaluation() {
           </div>
         </div>
 
-        {/* Sidebar details block */}
-        <div className="xl:col-span-3 bg-slate-900 border border-slate-950 rounded-xl p-5 text-slate-200 shadow-md">
-          <div className="pb-4 border-b border-slate-800 flex items-center justify-between">
-            <span className="text-sm font-bold text-slate-500 uppercase tracking-widest font-mono">Evaluation Node Info</span>
-            <Cpu className="h-4 w-4 text-blue-400" />
+        {/* Selected Model Detail Panel */}
+        <div className="xl:col-span-4 bg-white border border-slate-100 shadow-xs rounded-xl p-5 space-y-4 self-start">
+          <div className="pb-3 border-b border-slate-100 flex items-center justify-between">
+            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest font-mono">Model Specification</h3>
+            <span className="text-[10px] text-blue-600 font-mono font-bold uppercase tracking-wider">Evaluation Profile</span>
           </div>
 
-          <div className="py-4 space-y-4">
-            <div>
-              <h4 className="text-lg font-bold text-slate-55 flex items-center gap-1.5">
-                {selectedModel.name}
-              </h4>
-              <p className="text-sm text-slate-400 mt-1 leading-relaxed">
-                {selectedModel.description}
-              </p>
-            </div>
+          <div className="space-y-1">
+            <h4 className="text-base font-bold text-slate-900 flex items-center gap-2">
+              {selectedModel.name}
+            </h4>
+            <p className="text-xs text-slate-500 leading-relaxed">{selectedModel.description}</p>
+          </div>
 
-            <div className="grid grid-cols-2 gap-3 pb-3 border-b border-slate-800">
-              <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-                <span className="text-xs text-slate-500 font-bold block font-mono">MedQA Accuracy</span>
-                <span className="text-xl font-bold text-sky-400 font-mono">{selectedModel.medQa ? `${selectedModel.medQa}%` : 'N/A'}</span>
-              </div>
-              <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-                <span className="text-xs text-slate-500 font-bold block font-mono">Execution Class</span>
-                <span className="text-sm font-bold text-slate-300 font-mono block mt-1 truncate uppercase" title={selectedModel.resourceCode}>
-                  {selectedModel.status === 'validated' ? 'Validated local' : 'High Resource'}
-                </span>
-              </div>
-            </div>
+          {/* Pros list */}
+          <div className="space-y-2 pt-2">
+            <span className="text-[9.5px] font-extrabold uppercase text-slate-400 font-mono tracking-wider block">Identified Dissertation Advantages</span>
+            <ul className="space-y-2">
+              {selectedModel.pros.map((pro, index) => (
+                <li key={index} className="flex items-start gap-2 text-xs text-slate-700">
+                  <span className="h-4 w-4 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center font-mono text-[9px] font-bold shrink-0 mt-0.5">✓</span>
+                  <span className="leading-relaxed">{pro}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            {/* Pros List */}
-            <div className="space-y-2">
-              <span className="text-sm font-bold text-slate-500 uppercase tracking-wider font-mono flex items-center gap-1"><ThumbsUp className="h-3.5 w-3.5 text-emerald-450" /> Dissertation Pros</span>
-              <ul className="text-sm text-slate-300 space-y-2 list-none pl-1">
-                {selectedModel.pros.map((pro, idx) => (
-                  <li key={idx} className="flex gap-2 items-start text-sm leading-relaxed">
-                    <span className="text-emerald-400 shrink-0 select-none">✓</span>
-                    <span>{pro}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Cons List */}
-            <div className="space-y-2">
-              <span className="text-sm font-bold text-slate-500 uppercase tracking-wider font-mono flex items-center gap-1"><ThumbsDown className="h-3.5 w-3.5 text-rose-450" /> Implementation Gaps</span>
-              <ul className="text-sm text-slate-300 space-y-2 list-none pl-1">
-                {selectedModel.cons.map((con, idx) => (
-                  <li key={idx} className="flex gap-2 items-start text-sm leading-relaxed">
-                    <span className="text-rose-400 shrink-0 select-none">🗙</span>
-                    <span>{con}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* Cons list */}
+          <div className="space-y-2 pt-2 border-t border-slate-50">
+            <span className="text-[9.5px] font-extrabold uppercase text-slate-400 font-mono tracking-wider block">Sandbox Limits</span>
+            <ul className="space-y-2">
+              {selectedModel.cons.map((con, index) => (
+                <li key={index} className="flex items-start gap-2 text-xs text-slate-700">
+                  <span className="h-4 w-4 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center font-mono text-[9px] text-center font-bold shrink-0 mt-0.5">✕</span>
+                  <span className="leading-relaxed">{con}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
 
-      {/* RAG PROMPT COMPARISON SIMULATOR */}
-      <div className="bg-slate-950 rounded-2xl p-6 border border-slate-900 text-slate-100 shadow-lg space-y-5">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center pb-4 border-b border-slate-900 gap-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-blue-600/20 text-blue-400 rounded-lg border border-blue-500/10">
-              <Terminal className="h-5 w-5" />
-            </div>
-            <div>
-              <h3 className="text-lg font-bold text-white tracking-tight flex items-center gap-1.5">
-                RAG Pipeline Clinical Simulator 
-                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20 font-mono">PORTABLE SANDBOX</span>
-              </h3>
-              <p className="text-sm text-slate-400 mt-1">Simulate actual retrieval vectors and prompt outputs generated by both models under identical environments.</p>
-            </div>
+      {/* RAG Framework Playground Simulator Section */}
+      <div className="bg-white border border-slate-100 shadow-xs rounded-xl overflow-hidden mt-6">
+        <div className="p-4 bg-slate-50/50 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest font-mono">RAG Prompt Injection Simulator</h3>
+            <p className="text-[11px] text-slate-400 mt-1">Simulates real-world clinician queries against local Qdrant vectors and compares generated outputs.</p>
           </div>
-
-          <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto shrink-0 pb-1">
-            {SIMULATOR_PROMPTS.map((prompt) => (
-              <button
-                key={prompt.id}
-                onClick={() => { setActivePromptId(prompt.id); }}
-                id={`sim-prompt-${prompt.id}`}
-                className={`
-                  px-4 py-2 rounded-lg text-sm whitespace-nowrap transition-all border shrink-0 cursor-pointer
-                  ${activePromptId === prompt.id 
-                    ? 'bg-blue-600 text-white font-semibold border-blue-500/50 shadow-md shadow-blue-500/10' 
-                    : 'bg-slate-900 hover:bg-slate-850 text-slate-400 border-slate-800'}
-                `}
-              >
-                {prompt.title}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Input specifications */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div className="bg-slate-900/60 rounded-xl p-4 border border-slate-800 space-y-2">
-            <span className="text-sm font-bold text-blue-400 uppercase tracking-widest block font-mono">User / Physician Symptom Parameters</span>
-            <blockquote className="text-base text-slate-200 font-sans italic leading-relaxed border-l-2 border-slate-700 pl-3">
-              "{currentPrompt.symptoms}"
-            </blockquote>
-          </div>
-          <div className="bg-slate-900/60 rounded-xl p-4 border border-slate-800 space-y-2">
-            <span className="text-sm font-bold text-purple-400 uppercase tracking-widest block font-mono">Qdrant Vector Retrieval Output (K-1 Match)</span>
-            <p className="text-base text-slate-300 font-sans font-medium">
-              {currentPrompt.retrievedContext}
-            </p>
-          </div>
-        </div>
-
-        {/* Run simulator buttons */}
-        <div className="flex justify-center my-4">
           <button
             onClick={handleSimulate}
             disabled={isSimulating}
-            className={`
-              inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all tracking-wider uppercase shadow-md cursor-pointer
-              ${isSimulating 
-                ? 'bg-slate-800 text-slate-450 border border-slate-750 cursor-not-allowed'
-                : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white border border-blue-500/10 shadow-blue-500/10'}
-            `}
-            id="simulation-trigger-btn"
+            className="px-4 py-2 bg-slate-900 border border-slate-800 text-white rounded-xl text-xs font-bold font-mono tracking-wide hover:bg-slate-800 cursor-pointer disabled:opacity-50 transition-all flex items-center gap-2 shrink-0 shadow-sm"
           >
-            {isSimulating ? (
-              <>
-                <RefreshCw className="h-4 w-4 animate-spin" />
-                <span>Simulating RAG Pipeline...</span>
-              </>
-            ) : (
-              <>
-                <Play className="h-4 w-4 fill-white shrink-0" />
-                <span>Simulate Multi-Model Generation</span>
-              </>
-            )}
+            {isSimulating ? <RefreshCw className="h-3.5 w-3.5 animate-spin" /> : <Play className="h-3.5 w-3.5" />}
+            {isSimulating ? 'EVALUATING PIPELINE...' : 'EXECUTE SIMULATOR'}
           </button>
         </div>
 
-        {/* Output Area Container */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-          {/* BioGPT Output */}
-          <div className="bg-slate-900 rounded-xl p-5 border border-slate-800/80 space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
-                <span className="text-base font-bold text-slate-100">BioGPT Output Target</span>
-              </div>
-              <span className="text-sm font-bold text-slate-500 font-mono">Domain Fine-Tuned</span>
-            </div>
-
-            {/* Output prompt text */}
-            <div className="min-h-[140px] bg-slate-950 rounded-lg p-4 border border-slate-850">
-              <pre className="text-base font-mono text-emerald-400 leading-relaxed whitespace-pre-wrap font-sans">
-                {isSimulating ? 'Processing weights...' : currentPrompt.biogptOutput}
-              </pre>
-            </div>
-
-            {/* BioGPT evaluation metrics */}
-            <div className="grid grid-cols-3 gap-2 bg-slate-950 p-2.5 rounded-lg border border-slate-850/60">
-              <div className="text-center">
-                <span className="text-xs text-slate-500 uppercase tracking-widest font-mono">BLEU Score</span>
-                <span className="text-sm font-bold text-slate-300 block font-mono mt-0.5">{currentPrompt.metrics.biogpt.bleu}%</span>
-              </div>
-              <div className="text-center border-x border-slate-800">
-                <span className="text-xs text-slate-500 uppercase tracking-widest font-mono">ROUGE-L</span>
-                <span className="text-xs font-bold text-slate-300 block font-mono mt-0.5">{currentPrompt.metrics.biogpt.rouge}%</span>
-              </div>
-              <div className="text-center">
-                <span className="text-xs text-slate-500 uppercase tracking-widest font-mono">RAGAS Factuality</span>
-                <span className="text-xs font-bold text-sky-405 block font-mono mt-0.5">{currentPrompt.metrics.biogpt.ragas}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Clinical Camel Output */}
-          <div className="bg-slate-900 rounded-xl p-5 border border-slate-800/80 space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-indigo-400 animate-pulse"></span>
-                <span className="text-base font-bold text-slate-100">Clinical Camel Target</span>
-              </div>
-              <span className="text-sm font-bold text-slate-500 font-mono">Conversational Model</span>
-            </div>
-
-            {/* Output prompt text */}
-            <div className="min-h-[140px] bg-slate-950 rounded-lg p-4 border border-slate-850">
-              <pre className="text-base font-mono text-indigo-300 leading-relaxed whitespace-pre-wrap font-sans">
-                {isSimulating ? 'Processing weights...' : currentPrompt.clinicalCamelOutput}
-              </pre>
-            </div>
-
-            {/* Clinical Camel evaluation metrics */}
-            <div className="grid grid-cols-3 gap-2 bg-slate-950 p-2.5 rounded-lg border border-slate-850/60">
-              <div className="text-center">
-                <span className="text-xs text-slate-500 uppercase tracking-widest font-mono">BLEU Score</span>
-                <span className="text-xs font-bold text-slate-300 block font-mono mt-0.5">{currentPrompt.metrics.camel.bleu}%</span>
-              </div>
-              <div className="text-center border-x border-slate-800">
-                <span className="text-xs text-slate-500 uppercase tracking-widest font-mono">ROUGE-L</span>
-                <span className="text-xs font-bold text-slate-300 block font-mono mt-0.5">{currentPrompt.metrics.camel.rouge}%</span>
-              </div>
-              <div className="text-center">
-                <span className="text-xs text-slate-500 uppercase tracking-widest font-mono">RAGAS Factuality</span>
-                <span className="text-xs font-bold text-indigo-400 block font-mono mt-0.5">{currentPrompt.metrics.camel.ragas}</span>
-              </div>
-            </div>
-          </div>
+        {/* Prompt Category Tabs */}
+        <div className="p-4 bg-slate-50/20 border-b border-slate-100/50 flex flex-wrap gap-2">
+          {SIMULATOR_PROMPTS.map((prompt) => (
+            <button
+              key={prompt.id}
+              onClick={() => { setActivePromptId(prompt.id); }}
+              className={`
+                px-3 py-1.5 rounded-lg text-xs font-medium font-sans whitespace-nowrap transition-all cursor-pointer
+                ${activePromptId === prompt.id 
+                  ? 'bg-blue-600/10 text-blue-600 font-semibold border-l-2 border-blue-500' 
+                  : 'bg-slate-100 hover:bg-slate-200/60 text-slate-600'}
+              `}
+              id={`sim-tab-${prompt.id}`}
+            >
+              {prompt.title}
+            </button>
+          ))}
         </div>
 
-        {/* Gap interpretation review */}
-        <div className="p-4 bg-blue-900/10 border border-blue-900/30 rounded-xl flex items-start gap-3 mt-4 text-sm">
-          <Activity className="h-4 w-4 text-blue-400 shrink-0 mt-0.5" />
-          <div className="space-y-1">
-            <span className="font-bold text-blue-400 font-mono uppercase tracking-wider block">Gaps & Tracing Annotation Analysis</span>
-            <p className="text-slate-300 leading-relaxed">
-              {currentPrompt.gapAnnotation} Since conversational models prioritize fluid prose, they suffer higher risk of severe clinical missteps compared to specialized, local autoregressive counterparts like BioGPT.
-            </p>
+        {/* Simulation Output Board */}
+        <div className="p-5 md:p-6 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider font-mono">1. Doctor's Input (Symptoms)</span>
+              <p className="p-3 bg-slate-50/80 border border-slate-100 rounded-lg text-xs font-medium text-slate-700 font-mono leading-relaxed">
+                "{currentPrompt.symptoms}"
+              </p>
+            </div>
+            <div className="space-y-1">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider font-mono">2. Retrieved Guidelines (Qdrant Vector Context)</span>
+              <p className="p-3 bg-slate-50/80 border border-slate-100 rounded-lg text-xs text-slate-700 leading-relaxed font-mono">
+                ✓ {currentPrompt.retrievedContext}
+              </p>
+            </div>
+          </div>
+
+          {/* Generative Outputs Side-by-Side comparison */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            {/* Safe Model: BioGPT */}
+            <div className="border border-emerald-100 bg-emerald-50/10 rounded-xl p-4 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between pb-2 border-b border-emerald-100/50 mb-3">
+                  <span className="text-xs font-bold text-emerald-800 flex items-center gap-1.5">
+                    <CheckCircle className="h-4 w-4 shrink-0" /> Host Framework Output: BioGPT
+                  </span>
+                  <span className="text-[9px] font-bold font-mono px-2 py-0.5 bg-emerald-100 text-emerald-800 border border-emerald-250 rounded uppercase tracking-wider">
+                    {currentPrompt.metrics.biogpt.safety}
+                  </span>
+                </div>
+                <pre className="text-slate-800 text-[11px] leading-relaxed whitespace-pre-wrap font-mono py-1">
+                  {currentPrompt.biogptOutput}
+                </pre>
+              </div>
+              <div className="mt-4 pt-3 border-t border-emerald-100/50 flex gap-4 text-[10px] text-emerald-800/80 font-mono">
+                <span>BLEU: {currentPrompt.metrics.biogpt.bleu}</span>
+                <span>ROUGE-L: {currentPrompt.metrics.biogpt.rouge}</span>
+              </div>
+            </div>
+
+            {/* Unsafe Model: Clinical Camel */}
+            <div className="border border-rose-100 bg-rose-50/10 rounded-xl p-4 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between pb-2 border-b border-rose-100/50 mb-3">
+                  <span className="text-xs font-bold text-rose-800 flex items-center gap-1.5">
+                    <ThumbsDown className="h-4 w-4 shrink-0 text-rose-600" /> Comparison Model: Clinical Camel
+                  </span>
+                  <span className="text-[9px] font-bold font-mono px-2 py-0.5 bg-rose-100 text-rose-800 border border-rose-250 rounded uppercase tracking-wider">
+                    {currentPrompt.metrics.camel.safety}
+                  </span>
+                </div>
+                <pre className="text-slate-700 text-[11px] leading-relaxed whitespace-pre-wrap font-mono py-1 font-mono">
+                  {currentPrompt.clinicalCamelOutput}
+                </pre>
+              </div>
+              <div className="mt-4 pt-3 border-t border-rose-100/50 flex gap-4 text-[10px] text-rose-700 font-mono">
+                <span>BLEU: {currentPrompt.metrics.camel.bleu}</span>
+                <span>ROUGE-L: {currentPrompt.metrics.camel.rouge}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Gap interpretation review */}
+          <div className="p-4 bg-amber-50/40 border border-amber-900/10 rounded-xl flex items-start gap-3 mt-4 text-xs">
+            <span className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
+            <div className="space-y-1">
+              <span className="font-bold text-amber-900 font-mono uppercase tracking-wider block">Gaps & Tracing Annotation Analysis</span>
+              <p className="text-stone-800 leading-relaxed font-sans">
+                {currentPrompt.gapAnnotation}
+              </p>
+            </div>
           </div>
         </div>
       </div>

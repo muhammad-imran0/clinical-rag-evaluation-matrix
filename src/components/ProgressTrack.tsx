@@ -4,18 +4,13 @@ import { PhaseItem } from '../types';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Milestone, 
-  CheckCircle, 
-  Calendar, 
   Check, 
-  ChevronRight, 
-  Circle, 
-  Activity, 
-  Award,
-  RefreshCw,
-  Clock
+  Clock,
+  CheckCircle,
+  Circle
 } from 'lucide-react';
 
-export default function ProgressTrack() {
+export default function ProgressTrack({ simpleMode = false }: { simpleMode?: boolean }) {
   const [phases, setPhases] = useState<PhaseItem[]>(PHASES_DATA);
   const [activePhaseId, setActivePhaseId] = useState<string>('ph-2');
 
@@ -34,7 +29,7 @@ export default function ProgressTrack() {
     });
   };
 
-  // Calculations for dynamic progress metrics
+  // Dynamic progress stats
   const progressStats = useMemo(() => {
     let totalTasksCount = 0;
     let completedTasksCount = 0;
@@ -59,24 +54,139 @@ export default function ProgressTrack() {
     return phases.find(p => p.id === activePhaseId) || phases[1];
   }, [phases, activePhaseId]);
 
+  if (simpleMode) {
+    return (
+      <div className="space-y-6">
+        {/* Simple Page Header */}
+        <div className="pb-4 border-b border-stone-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h2 className="text-2xl font-bold font-display text-stone-900 tracking-tight flex items-center gap-2.5">
+              <Milestone className="h-6 w-6 text-amber-700" />
+              Our Dissertation Work Plan
+            </h2>
+            <p className="text-sm text-stone-600 mt-1">
+              A dynamic, real-time interactive checklist tracking Muhammad Imran's progress toward the final thesis submission.
+            </p>
+          </div>
+
+          {/* Progress bar info */}
+          <div className="flex items-center gap-3 bg-stone-900 text-[#FCFBF9] px-4 py-2.5 rounded-xl text-xs font-semibold">
+            <div className="text-right">
+              <span className="text-[9px] uppercase font-bold text-amber-100 block font-mono">My Thesis Progress</span>
+              <span className="font-mono text-sm text-amber-400 font-bold">{progressStats.percent}% Completed</span>
+            </div>
+            <div className="w-16 bg-stone-800 h-2.5 rounded-full overflow-hidden shrink-0 border border-stone-700">
+              <div 
+                className="h-full bg-amber-400 rounded-full transition-all duration-300" 
+                style={{ width: `${progressStats.percent}%` }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Dynamic Checklist Card container */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          
+          {/* Timeline side */}
+          <div className="lg:col-span-7 bg-white border border-stone-200 rounded-xl p-5 space-y-4">
+            <span className="text-xs font-bold text-stone-400 uppercase tracking-wider font-mono">Interactive Plan Chapters</span>
+            <div className="space-y-3">
+              {phases.map((phase) => {
+                const isActive = activePhaseId === phase.id;
+                const completedCount = phase.tasks.filter(t => t.completed).length;
+
+                return (
+                  <div
+                    key={phase.id}
+                    onClick={() => setActivePhaseId(phase.id)}
+                    className={`p-4 rounded-xl border text-left cursor-pointer transition-all ${
+                      isActive 
+                        ? 'bg-[#FAF8F4] border-amber-600 shadow-2xs' 
+                        : 'bg-white border-stone-200 hover:border-stone-400'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded ${
+                        phase.status === 'done' ? 'bg-emerald-100 text-emerald-800' :
+                        phase.status === 'now' ? 'bg-amber-100 text-amber-800' :
+                        'bg-stone-100 text-stone-600'
+                      }`}>
+                        {phase.status === 'done' ? '✓ DONE' :
+                         phase.status === 'now' ? '⏳ ACTIVE NOW' :
+                         '🔜 UP NEXT'}
+                      </span>
+                      <span className="text-xs text-stone-500 font-mono font-bold">
+                        ({completedCount}/{phase.tasks.length} Completed)
+                      </span>
+                    </div>
+                    <h4 className="font-bold text-stone-900 text-sm mt-1">{phase.title}</h4>
+                    <p className="text-xs text-stone-600 line-clamp-2 leading-relaxed mt-0.5">{phase.desc}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Interactive Checklist side */}
+          <div className="lg:col-span-5 bg-white border border-stone-200 rounded-xl p-5 space-y-4">
+            <div>
+              <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest font-mono">Detailed Supervisor Sign-off</span>
+              <h3 className="font-bold text-stone-900 text-base mt-0.5">Tasks for "{activePhase.title}"</h3>
+              <p className="text-xs text-stone-500 mt-1 leading-relaxed">
+                Click any checkbox below to check off or test-complete tasks. Notice how our thesis progress score updates at the top!
+              </p>
+            </div>
+
+            <div className="space-y-2 pt-2 border-t border-stone-100">
+              {activePhase.tasks.map((task) => (
+                <div 
+                  key={task.title}
+                  onClick={() => toggleTask(activePhase.id, task.title)}
+                  className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all select-none ${
+                    task.completed 
+                      ? 'bg-emerald-50/20 border-emerald-250 text-stone-900' 
+                      : 'bg-[#FDFCFB]/80 hover:bg-[#FAF8F5] border-stone-200 text-stone-600'
+                  }`}
+                >
+                  <button className="shrink-0 mt-0.5">
+                    {task.completed ? (
+                      <CheckCircle className="h-4.5 w-4.5 text-emerald-800 shrink-0" />
+                    ) : (
+                      <Circle className="h-4.5 w-4.5 text-stone-400 shrink-0" />
+                    )}
+                  </button>
+                  <span className={`text-xs select-none ${task.completed ? 'line-through font-semibold text-stone-500' : ''}`}>
+                    {task.title}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    );
+  }
+
+  // STANDARD EXPERT LAYOUT
   return (
     <div className="space-y-6">
       {/* Header Bar */}
       <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-100 gap-4">
         <div>
-          <h2 className="text-3xl font-bold font-display text-slate-900 tracking-tight flex items-center gap-2.5">
+          <h2 className="text-2xl font-bold font-display text-slate-900 tracking-tight flex items-center gap-2.5">
             <Milestone className="h-6 w-6 text-blue-600" />
             Implementation Progress Tracker
           </h2>
-          <p className="text-sm text-slate-500 mt-1.5">
+          <p className="text-xs text-slate-500 mt-1">
             Real-time interactive vertical timeline mapping research milestones, completed tasks, and upcoming pipeline assemblies.
           </p>
         </div>
         
         {/* Dynamic overall progress meter */}
-        <div className="flex items-center gap-3 bg-slate-900 text-slate-100 px-4 py-2 rounded-xl text-xs font-semibold border border-slate-955 shadow-md">
+        <div className="flex items-center gap-3 bg-slate-900 text-slate-100 px-4 py-2 rounded-xl text-xs font-semibold border border-slate-950 shadow-md">
           <div className="text-right">
-            <span className="text-xs uppercase font-bold text-slate-400 block font-mono">Completed Core Tasks</span>
+            <span className="text-[9px] uppercase font-bold text-slate-400 block font-mono">Completed Core Tasks</span>
             <span className="font-mono text-sm text-sky-400 font-bold">{progressStats.percent}% Overall Complete</span>
           </div>
           <div className="w-16 bg-slate-800 h-2.5 rounded-full overflow-hidden shrink-0 border border-slate-700">
@@ -88,7 +198,7 @@ export default function ProgressTrack() {
         </div>
       </div>
 
-      {/* Main Grid: Interactive Timeline Steps (Left) + Detail Task Checklist (Right) */}
+      {/* Main Grid: Interactive Timeline Stages (Left) + Detail Task Checklist (Right) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-2">
         {/* Timeline column */}
         <div className="lg:col-span-7 bg-white border border-slate-100 rounded-2xl p-6 shadow-xs relative">
@@ -98,19 +208,16 @@ export default function ProgressTrack() {
           <div className="absolute left-10 top-18 bottom-8 w-0.5 bg-slate-100 hidden sm:block" />
 
           <div className="space-y-6">
-            {phases.map((phase, idx) => {
+            {phases.map((phase) => {
               const isActive = activePhaseId === phase.id;
-              
-              // Calculate specific phase completion rate
               const compCount = phase.tasks.filter(t => t.completed).length;
-              const ratePercent = Math.round((compCount / phase.tasks.length) * 100);
 
               return (
                 <div 
                   key={phase.id}
                   onClick={() => setActivePhaseId(phase.id)}
                   className={`
-                    relative flex items-start gap-4 p-4 rounded-xl border select-none duration-250 cursor-pointer
+                    relative flex items-start gap-4 p-4 rounded-xl border select-none duration-200 cursor-pointer
                     ${isActive 
                       ? 'bg-blue-600/5 ring-1 ring-blue-500/20 border-blue-200' 
                       : 'border-slate-100 hover:bg-slate-50/50 hover:border-slate-200'}
@@ -128,41 +235,23 @@ export default function ProgressTrack() {
                       </div>
                     ) : (
                       <div className="h-8 w-8 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center border-2 border-slate-200 font-bold font-mono text-xs">
-                        {idx + 1}
+                        {phase.id.replace('ph-', '')}
                       </div>
                     )}
                   </div>
 
-                  {/* Body Content */}
-                  <div className="flex-1 space-y-1.5">
-                    <div className="flex items-center justify-between gap-2 overflow-hidden">
-                      <span className="text-xs uppercase font-mono font-bold text-slate-405 shrink-0">STAGE MODEL 0{idx + 1}</span>
-                      <span className={`text-xs uppercase font-mono font-bold px-2 py-0.5 rounded border shrink-0 ${
-                        phase.status === 'done' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' :
-                        phase.status === 'now' ? 'bg-blue-50 text-blue-700 border-blue-100 animate-pulse' :
-                        'bg-slate-50 text-slate-500 border-slate-150'
-                      }`}>
-                        {phase.status === 'done' ? 'Stage Clear' : phase.status === 'now' ? 'Active Focus' : 'Scheduled'}
+                  {/* Text descriptions */}
+                  <div className="flex-1 space-y-1.5 min-w-0">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-mono text-[10px] font-bold text-slate-400 uppercase">{phase.id}</span>
+                      <span className="text-[10px] text-slate-400 font-mono font-bold">
+                        {compCount} of {phase.tasks.length} Done
                       </span>
                     </div>
-
-                    <h4 className="font-bold text-slate-900 text-sm md:text-base leading-snug truncate">{phase.title}</h4>
-                    <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed font-sans">{phase.desc}</p>
-
-                    {/* Progress tracking badge details */}
-                    <div className="flex items-center gap-3 pt-1">
-                      <div className="flex items-center gap-1 text-xs text-slate-400 font-mono">
-                        <Clock className="h-3 w-3" />
-                        <span>Tasks Check: {compCount} / {phase.tasks.length}</span>
-                      </div>
-                      <div className="w-16 bg-slate-100 h-1.5 rounded-full overflow-hidden">
-                        <div 
-                          className={`h-full ${phase.status === 'done' ? 'bg-emerald-500' : 'bg-blue-500'}`} 
-                          style={{ width: `${ratePercent}%` }}
-                        />
-                      </div>
-                      <span className="text-xs font-mono text-slate-400">{ratePercent}%</span>
-                    </div>
+                    <h3 className={`font-bold text-sm md:text-base leading-tight ${isActive ? 'text-blue-700' : 'text-slate-900'}`}>
+                      {phase.title}
+                    </h3>
+                    <p className="text-xs text-slate-500 leading-relaxed font-sans">{phase.desc}</p>
                   </div>
                 </div>
               );
@@ -170,58 +259,48 @@ export default function ProgressTrack() {
           </div>
         </div>
 
-        {/* Dynamic Detail Task checklist Column (Right) */}
-        <div className="lg:col-span-5 bg-slate-900 border border-slate-950 rounded-2xl p-5 text-slate-200 shadow-md flex flex-col justify-between self-start">
-          <div className="space-y-4">
-            <div className="pb-4 border-b border-slate-800 flex items-center justify-between">
-              <span className="text-xs font-extrabold text-slate-500 uppercase tracking-widest font-mono">Stage Checklist Assembly</span>
-              <Activity className="h-4 w-4 text-blue-400" />
+        {/* Detailed Task checklist (Right side card) */}
+        <div className="lg:col-span-5 bg-white border border-slate-100 rounded-2xl p-5 shadow-xs space-y-4 self-start">
+          <div>
+            <div className="flex items-center justify-between">
+              <span className="text-[9px] font-bold text-blue-600 font-mono uppercase tracking-widest">Active Checklist</span>
+              <span className="flex items-center gap-1 text-[10px] text-amber-500 font-bold font-mono">
+                <Clock className="h-3.5 w-3.5 text-amber-500" /> TIMELINE EXECUTABLE
+              </span>
             </div>
-
-            <div className="space-y-3">
-              <div>
-                <span className="text-sm font-bold text-blue-400 font-mono">ACTIVE DISSERTATION BLOCK DETAILED VIEW</span>
-                <h3 className="text-base font-bold text-slate-50 mt-1 leading-snug">
-                  {activePhase.title}
-                </h3>
-                <p className="text-xs text-slate-400 mt-2 leading-relaxed">
-                  {activePhase.desc}
-                </p>
-              </div>
-
-              {/* Task list with inputs */}
-              <div className="space-y-2 pt-3 border-t border-slate-800/80">
-                <span className="text-xs font-extrabold text-slate-500 uppercase tracking-wider font-mono block">Milestone Interactive Tasks</span>
-                <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
-                  {activePhase.tasks.map((task, idx) => (
-                    <label 
-                      key={idx}
-                      className="flex items-start gap-3 p-3 bg-slate-950/80 rounded-xl border border-slate-850 hover:border-slate-800 cursor-pointer select-none transition-all group"
-                      id={`task-label-${activePhase.id}-${idx}`}
-                    >
-                      <input 
-                        type="checkbox"
-                        checked={task.completed}
-                        onChange={() => toggleTask(activePhase.id, task.title)}
-                        className="mt-0.5 h-4 w-4 text-blue-600 bg-slate-900 rounded border-slate-800 focus:ring-blue-500 hover:ring-1 shrink-0 cursor-pointer"
-                        id={`task-checkbox-${activePhase.id}-${idx}`}
-                      />
-                      <span className={`text-sm leading-snug transition-colors duration-150 ${task.completed ? 'line-through text-slate-500' : 'text-slate-300 group-hover:text-slate-100'}`}>
-                        {task.title}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <h4 className="font-bold text-slate-900 text-base mt-1">Milestone Action Gaps</h4>
+            <p className="text-xs text-slate-400 leading-relaxed font-sans mt-0.5">
+              Review granular tasks required to successfully validate the {activePhase.id} core.
+            </p>
           </div>
 
-          {/* Verification Box */}
-          <div className="mt-6 pt-5 border-t border-slate-800/80 flex gap-2 items-start text-xs text-slate-400 p-3 bg-slate-950/50 rounded-xl border border-slate-850/40">
-            <Award className="h-4.5 w-4.5 text-amber-500 shrink-0" />
-            <p className="leading-relaxed">
-              <strong>Checklist State Persistent</strong>: Checking off tasks reflects instantly on the master indicator percentage at the top. Use this to audit and verify current progress stages interactively.
-            </p>
+          <div className="space-y-2 border-t border-slate-50 pt-4">
+            {activePhase.tasks.map((task) => (
+              <div 
+                key={task.title}
+                onClick={() => toggleTask(activePhase.id, task.title)}
+                className={`
+                  p-3 rounded-xl border flex items-center gap-3 transition-all duration-200 cursor-pointer select-none
+                  ${task.completed 
+                    ? 'bg-emerald-50/10 border-emerald-100 text-slate-650' 
+                    : 'bg-slate-50/50 border-slate-150 hover:bg-slate-100/30 text-slate-800'}
+                `}
+                id={`task-item-${task.title.toLowerCase().replace(/\s+/g, '-')}`}
+              >
+                <button className="shrink-0">
+                  {task.completed ? (
+                    <div className="h-4.5 w-4.5 bg-emerald-500 text-white rounded-full flex items-center justify-center font-bold">
+                      <Check className="h-3 w-3 stroke-[3.5]" />
+                    </div>
+                  ) : (
+                    <div className="h-4 w-4 rounded-full border border-slate-310 bg-white" />
+                  )}
+                </button>
+                <span className={`text-xs font-sans font-medium select-none ${task.completed ? 'line-through text-slate-450' : ''}`}>
+                  {task.title}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
