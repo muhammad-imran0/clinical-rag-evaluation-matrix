@@ -165,6 +165,10 @@ export default function LiteratureMatrix({ simpleMode = false }: { simpleMode?: 
                       }`}>
                         {isPrimary ? 'PRIMARY RESEARCH GUIDE' : `REFERENCE MODEL 0${index}`}
                       </span>
+                      <span className="inline-flex items-center gap-1 text-sm font-mono text-stone-600">
+                        <FileText className="h-3.5 w-3.5" />
+                        {paper.fileLabel}
+                      </span>
                       <span className="text-xs text-stone-500 font-mono">({paper.venue})</span>
                     </div>
                     <h3 className="font-bold text-stone-900 text-base leading-snug">{paper.title}</h3>
@@ -396,9 +400,9 @@ export default function LiteratureMatrix({ simpleMode = false }: { simpleMode?: 
                     <div className="flex-1 space-y-1.5">
                       <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
                         <span className="font-mono text-xs font-bold text-slate-400">RESEARCH BLOCK [0{index + 1}]</span>
-                        <span className="inline-flex items-center gap-1 text-sm font-mono text-slate-500 align-middle shrink-0">
-                          <FileText className="h-3 w-3" />
-                          {paper.fileLabel}
+                        <span className="inline-flex items-center gap-1 text-sm font-mono text-slate-600 align-middle shrink-0">
+                          <FileText className="h-3.5 w-3.5" />
+                          Ref: {paper.fileLabel}
                         </span>
                       </div>
                       <h4 className="font-bold text-slate-900 text-sm md:text-base tracking-tight leading-snug">{paper.title}</h4>
